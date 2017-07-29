@@ -6,15 +6,18 @@ import java.awt.event.KeyListener;
 import graphics.Screen;
 import graphics.SpriteSheet;
 import graphics.Texture;
+import main.Main;
 
 public class Player {
-	int x, y, w, h, dir;
+	int x, y, w, h, dir, xvel, yvel, movespeed;
 	SpriteSheet sheet;
 	Texture sprite;
 
 	public Player(int x, int y, int w, int h, String path) {
+		movespeed = 10;
 		sprite = new Texture("XD", path, w, h);
-
+		xvel = 0;
+		yvel = 0;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -27,18 +30,39 @@ public class Player {
 	}
 
 	public void update() {
+		if (x + xvel > 270) {
+			Main.getInstance().getLevel().advance(xvel);
+		} else {
+			x += xvel;
+			y += yvel;
+		}
 	}
 
+	// Handling Key Inputs
 	public KeyListener listener = new KeyListener() {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			System.out.println(e.getKeyCode());
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				xvel = -movespeed;
+				dir = -1;
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				xvel = +movespeed;
+				dir = 1;
+			}
 
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				if (dir == -1) {
+					xvel = 0;
+				}
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				if (dir == 1) {
+					xvel = 0;
+				}
+			}
 
 		}
 
@@ -48,6 +72,10 @@ public class Player {
 		}
 
 	};
+
+	public int getXVel() {
+		return xvel;
+	}
 
 	public KeyListener getListener() {
 		return listener;
