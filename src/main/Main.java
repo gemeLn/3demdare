@@ -5,7 +5,13 @@ import graphics.Screen;
 import graphics.Window;
 
 public class Main {
+	enum State {
+		Menu, Game;
+	}
+
 	// Declare Variables Here
+	State state;
+	Menu menu;
 	Window window = new Window("FastWalker", 960, 540);
 	Screen screen;
 	Level level;
@@ -27,6 +33,7 @@ public class Main {
 
 	void init() {
 		instance = this;
+		menu = new Menu();
 		window.show();
 		screen = window.getScreen();
 		level = new Level(screen);
@@ -41,11 +48,17 @@ public class Main {
 	private void loop() {
 		while (MainLoopOn) {
 			if ((double) (System.currentTimeMillis() - timeLR) > fps) {
-				window.update();
-				screen.clear(0xffffff);
-				level.update();
-				level.render();
-				timeLR = System.currentTimeMillis();
+				if (state == State.Menu) {
+					menu.update();
+					menu.render(screen);
+				} else if (state == State.Game) {
+					window.update();
+					screen.clear(0xffffff);
+					level.update();
+					level.render();
+					timeLR = System.currentTimeMillis();
+				}
+
 			}
 		}
 	}
