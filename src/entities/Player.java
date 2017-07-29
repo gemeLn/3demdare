@@ -30,9 +30,7 @@ public class Player {
 	}
 
 	public void update() {
-		if (x + xvel > 480) {
-			Main.getInstance().getLevel().advance(xvel);
-		} else if (x + xvel < 0) {
+		if (x + xvel > 270) {
 			Main.getInstance().getLevel().advance(xvel);
 		} else {
 			x += xvel;
