@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import entities.Hitbox;
+import entities.Shutdown;
 import entities.Player;
 import graphics.Screen;
 import graphics.Texture;
@@ -57,7 +58,7 @@ public class Level {
 		player.update();
 		shutdown.update();
 		for (Hitbox h : hitboxes) {
-			if (onScreen(h.x) || onScreen(h.x + h.width)) {
+			if (onScreen(h.x)||onScreen(h.x+h.width)) {
 				if (!onScreen.contains(h)) {
 					onScreen.add(h);
 				}
@@ -74,8 +75,8 @@ public class Level {
 	}
 
 	public void render() {
-		shutdown.render(screen);
 		screen.drawTexture(ScreenPosX, 0, bg);
+		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
 			screen.drawRect(h.x, h.y, h.width, h.height, 0xff0000);
@@ -83,15 +84,15 @@ public class Level {
 
 	}
 
-	public Shutdown getShutdown() {
-		return shutdown;
-	}
-
 	public void advance(int xvel) {
 		ScreenPosX -= xvel;
 		for (Hitbox h : hitboxes) {
 			h.shiftX(-xvel);
 		}
+	}
+	
+	public Shutdown getShutdown(){
+		return shutdown;
 	}
 
 	public KeyListener getListener() {
