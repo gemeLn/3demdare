@@ -1,15 +1,18 @@
 package Level;
 
+import java.awt.event.KeyListener;
+
 import entities.Player;
 import graphics.Screen;
 
 public class Level {
 	// Declare shit
-	Player player = new Player(100, 100, 100, 100, "/sprites/xd.png");
+	Player player;
 	Screen screen;
 
 	public Level(Screen screen) {
 		this.screen = screen;
+		player = new Player(100, 100, 50, 50, "/sprites/xd.png");
 	}
 
 	public void update() {
@@ -19,5 +22,9 @@ public class Level {
 	public void render() {
 		player.render(screen);
 
+	}
+
+	public KeyListener getListener() {
+		return player.getListener();
 	}
 }

@@ -23,6 +23,7 @@ public class Main {
 		window.show();
 		screen = window.getScreen();
 		level = new Level(screen);
+		window.addKeyListener(level.getListener());
 		loop();
 	}
 
@@ -30,9 +31,9 @@ public class Main {
 		while (MainLoopOn) {
 			if ((double) (System.currentTimeMillis() - timeLR) > fps) {
 				window.update();
+				screen.clear(0xffffff);
 				level.update();
 				level.render();
-				screen.clear(0xffffff);
 				timeLR = System.currentTimeMillis();
 			}
 		}
