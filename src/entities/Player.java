@@ -10,7 +10,7 @@ import graphics.Texture;
 import main.Main;
 
 public class Player {
-	int x, y, w, h, dir, xvel, yvel, movespeed;
+	private int x, y, w, h, dir, xvel, yvel, movespeed, jumps, totalJumps,jumpHeight;
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
@@ -23,6 +23,9 @@ public class Player {
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
 		yvel = 1;
+		totalJumps = 2;
+		jumps = totalJumps;
+		jumpHeight = 12;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -36,9 +39,9 @@ public class Player {
 
 	public void update() {
 		// Collision Detect
-		// Y detection
-		Hitbox ybox = new Hitbox(x, y + yvel+1, w, h);
-		// X Detection
+		// New Y Hitbox
+		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
+		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
 		inAir = true;
 		checkXDone = false;
@@ -52,9 +55,13 @@ public class Player {
 				y = (int) (h.y - this.h);
 				inAir = false;
 				checkYDone = true;
+				jumps = totalJumps;
 			}
 			if (xbox.intersects(h)) {
 				xvel = 0;
+				if (inAir) {
+					jumps = 1;
+				}
 				checkXDone = true;
 			}
 		}
@@ -79,8 +86,13 @@ public class Player {
 	}
 
 	public void jump() {
-		inAir = true;
-		yvel = -10;
+
+		if (jumps > 0) {
+			inAir = true;
+			yvel = -jumpHeight;
+			jumps--;
+		}
+
 	}
 
 	// Handling Key Inputs
