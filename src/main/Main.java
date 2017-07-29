@@ -5,12 +5,12 @@ import graphics.Window;
 
 public class Main {
 	// Declare Variables Here
-	Window window = new Window("FastWalker", 960, 540);
+	Window window = new Window("FastWalker", 400, 640);
 	Screen screen;
 	double fps = 1000 / 60;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
-
+	
 	// Methods
 	public static void main(String[] args) {
 		Main main = new Main();
