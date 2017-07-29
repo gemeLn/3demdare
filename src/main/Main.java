@@ -33,7 +33,8 @@ public class Main {
 
 	void init() {
 		instance = this;
-		menu = new Menu();
+		state = State.Game;
+		//menu = new Menu();
 		window.show();
 		screen = window.getScreen();
 		level = new Level(screen);
