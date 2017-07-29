@@ -76,7 +76,7 @@ public class Screen {
 			if (yy < 0 || yy >= this.height)
 				continue;
 			if(x > 0 && x < this.width)
-				pixels[x + yy* this.width] = color;
+				pixels[x + yy * this.width] = color;
 			if ((x + width) < this.width)
 				pixels[x + width + yy * this.width] = color;
 		}
