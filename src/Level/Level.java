@@ -58,11 +58,9 @@ public class Level {
 			if (onScreen(h.x)||onScreen(h.x+h.width)) {
 				if (!onScreen.contains(h)) {
 					onScreen.add(h);
-					System.out.println("add");
 				}
 			} else {
 				if (onScreen.contains(h)) {
-					System.out.println("removed");
 					onScreen.remove(h);
 				}
 			}
@@ -76,9 +74,7 @@ public class Level {
 	public void render() {
 		screen.drawTexture(ScreenPosX, 0, bg);
 		player.render(screen);
-		System.out.println(onScreen.size());
 		for (Hitbox h : onScreen) {
-
 			screen.drawRect(h.x, h.y, h.width, h.height, 0xff0000);
 		}
 

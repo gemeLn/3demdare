@@ -66,7 +66,7 @@ public class Player {
 			}
 		}
 		if (inAir) {
-			//yvel++;
+			yvel++;
 		}
 		y += yvel;
 		// Shifting Background
