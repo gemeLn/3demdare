@@ -40,7 +40,7 @@ public class Player {
 		} else {
 			x += xvel;
 		}
-		Hitbox nbox = new Hitbox(x+xvel, y + yvel, w, h);
+		Hitbox nbox = new Hitbox(x, y + yvel, w, h);
 		for (Hitbox h : hitboxes) {
 			if (nbox.intersects(h)) {
 				yvel = 0;
