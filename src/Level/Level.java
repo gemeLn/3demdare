@@ -55,7 +55,6 @@ public class Level {
 
 	public void update() {
 		player.update();
-		System.out.println(onScreen.size());
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x,h.x+h.width)) {
 				if (!onScreen.contains(h)) {
