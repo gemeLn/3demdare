@@ -14,6 +14,8 @@ public class Player {
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
+	boolean inAir = false;
+	private boolean checkYDone, checkXDone;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
 		movespeed = 10;
@@ -33,6 +35,34 @@ public class Player {
 	}
 
 	public void update() {
+		// Collision Detect
+		// Y detection
+		Hitbox ybox = new Hitbox(x, y + yvel+1, w, h);
+		// X Detection
+		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
+		inAir = true;
+		checkXDone = false;
+		checkYDone = false;
+		for (Hitbox h : hitboxes) {
+			if (checkXDone && checkYDone) {
+				break;
+			}
+			if (ybox.intersects(h)) {
+				yvel = 0;
+				y = (int) (h.y - this.h);
+				inAir = false;
+				checkYDone = true;
+			}
+			if (xbox.intersects(h)) {
+				xvel = 0;
+				checkXDone = true;
+			}
+		}
+		if (inAir) {
+			yvel++;
+		}
+		y += yvel;
+		// Shifting Background
 		if (x + xvel > 480) {
 			Main.getInstance().getLevel().advance(xvel);
 			for (Hitbox h : hitboxes) {
@@ -46,15 +76,11 @@ public class Player {
 		} else {
 			x += xvel;
 		}
-		Hitbox nbox = new Hitbox(x, y + yvel, w, h);
-		for (Hitbox h : hitboxes) {
-			if (nbox.intersects(h)) {
-				yvel = 0;
-				break;
-			}
-		}
-		y += yvel;
+	}
 
+	public void jump() {
+		inAir = true;
+		yvel = -10;
 	}
 
 	// Handling Key Inputs
@@ -67,6 +93,8 @@ public class Player {
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				xvel = +movespeed;
 				dir = 1;
+			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+				jump();
 			}
 
 		}
