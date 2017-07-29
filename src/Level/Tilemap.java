@@ -27,6 +27,6 @@ public class Tilemap {
 	}
 	
 	private void setHitbox(StringTokenizer tempString){
-		String tempString.nextToken();
+	//	String tempString.nextToken();
 	}
 }
