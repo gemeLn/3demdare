@@ -17,5 +17,9 @@ public class Animation {
 		
 	}
 	
+	public void jumping(){
+		
+	}
+	
 	
 }
