@@ -66,20 +66,13 @@ public class Player {
 			}
 		}
 		if (inAir) {
-			yvel++;
+			//yvel++;
 		}
 		y += yvel;
 		// Shifting Background
-		if (x + xvel > 480) {
+		if (x + xvel > 480||x+xvel<0) {
 			Main.getInstance().getLevel().advance(xvel);
-			for (Hitbox h : hitboxes) {
-				h.shiftX(-xvel);
-			}
-		} else if (x + xvel < 0) {
-			Main.getInstance().getLevel().advance(xvel);
-			for (Hitbox h : hitboxes) {
-				h.shiftX(-xvel);
-			}
+			
 		} else {
 			x += xvel;
 		}
