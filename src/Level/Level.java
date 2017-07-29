@@ -90,6 +90,8 @@ public class Level {
 		for (Hitbox h : hitboxes) {
 			h.shiftX(-xvel);
 		}
+		
+		shutdown.getHitbox().shiftX(-xvel);
 	}
 
 	public Shutdown getShutdown() {
