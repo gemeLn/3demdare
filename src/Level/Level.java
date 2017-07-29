@@ -15,6 +15,7 @@ import graphics.Texture;
 public class Level {
 	// Declare shit
 	Player player;
+	Shutdown shutdown;
 	Screen screen;
 	Texture bg;
 	ArrayList<Hitbox> onScreen = new ArrayList<Hitbox>();
@@ -24,7 +25,7 @@ public class Level {
 
 	public Level(Screen screen) {
 		this.screen = screen;
-
+		shutdown = new Shutdown();
 		bg = new Texture("BG", "/sprites/bg.png", 1920, 540);
 		try {
 			loadLevel(1);
@@ -54,8 +55,9 @@ public class Level {
 
 	public void update() {
 		player.update();
+		shutdown.update();
 		for (Hitbox h : hitboxes) {
-			if (onScreen(h.x)||onScreen(h.x+h.width)) {
+			if (onScreen(h.x) || onScreen(h.x + h.width)) {
 				if (!onScreen.contains(h)) {
 					onScreen.add(h);
 				}
@@ -72,12 +74,17 @@ public class Level {
 	}
 
 	public void render() {
+		shutdown.render(screen);
 		screen.drawTexture(ScreenPosX, 0, bg);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
 			screen.drawRect(h.x, h.y, h.width, h.height, 0xff0000);
 		}
 
+	}
+
+	public Shutdown getShutdown() {
+		return shutdown;
 	}
 
 	public void advance(int xvel) {
