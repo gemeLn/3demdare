@@ -65,11 +65,6 @@ public class Player {
 				checkXDone = true;
 			}
 		}
-		if(xbox.intersects(Main.getInstance().getLevel().getShutdown().hitbox)){
-			xvel = 0;
-			yvel = 0;
-		}
-		
 		if (inAir) {
 			yvel++;
 		}
