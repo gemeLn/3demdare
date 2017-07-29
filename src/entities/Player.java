@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import graphics.Screen;
 import graphics.SpriteSheet;
@@ -12,12 +13,14 @@ public class Player {
 	int x, y, w, h, dir, xvel, yvel, movespeed;
 	SpriteSheet sheet;
 	Texture sprite;
+	ArrayList<Hitbox> hitboxes;
 
-	public Player(int x, int y, int w, int h, String path) {
+	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
 		movespeed = 10;
+		this.hitboxes = hitboxes;
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
-		yvel = 0;
+		yvel = 1;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -37,6 +40,15 @@ public class Player {
 		} else {
 			x += xvel;
 		}
+		Hitbox nbox = new Hitbox(x+xvel, y + yvel, w, h);
+		for (Hitbox h : hitboxes) {
+			if (nbox.intersects(h)) {
+				yvel = 0;
+				break;
+			}
+		}
+		y+=yvel;
+
 	}
 
 	// Handling Key Inputs

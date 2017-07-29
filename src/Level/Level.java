@@ -1,4 +1,4 @@
- package Level;
+package Level;
 
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
@@ -18,30 +18,37 @@ public class Level {
 	Screen screen;
 	Texture bg;
 	ArrayList<String> hitboxNumbers = new ArrayList<String>();
-	ArrayList<Hitbox> hitboxs = new ArrayList<Hitbox>();
+	ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
 	public int ScreenPosX = 0;
 
 	public Level(Screen screen) {
 		this.screen = screen;
-		player = new Player(100, 100, 50, 50, "/sprites/xd.png");
-		bg = new Texture("BG", "/sprites/bg.png", 1920, 540);
-	}
 	
+		bg = new Texture("BG", "/sprites/bg.png", 1920, 540);
+		try {
+			loadLevel(1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		player = new Player(100, 100, 50, 50, "/sprites/xd.png",hitboxes);
+	}
+
 	public void loadLevel(int level) throws IOException {
-		//loads the level hitbox file
-		FileReader in_file = new FileReader("src/sprites/level" + level + ".lv");
+		// loads the level hitbox file
+		FileReader in_file = new FileReader("src/sprites/level.lv");
 		BufferedReader buff_in = new BufferedReader(in_file);
 		String tempString = buff_in.readLine();
-		while(tempString != null){
+		while (tempString != null) {
 			hitboxNumbers.add(tempString);
 			tempString = buff_in.readLine();
 		}
-		
-		for(int i = 0; i < hitboxNumbers.size(); i++){
+		for (int i = 0; i < hitboxNumbers.size(); i++) {
 			StringTokenizer tempToken = new StringTokenizer(hitboxNumbers.get(i));
-			hitboxs.add(new Hitbox(tempToken.nextToken(),tempToken.nextToken(),tempToken.nextToken(),tempToken.nextToken()));
+			hitboxes.add(new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
+					tempToken.nextToken()));
 		}
-		
+
 	}
 
 	public void update() {
@@ -51,6 +58,9 @@ public class Level {
 	public void render() {
 		screen.drawTexture(ScreenPosX, 0, bg);
 		player.render(screen);
+		for (Hitbox h : hitboxes) {
+			screen.drawRect(h.x, h.y, h.width, h.height, 0xff0000);
+		}
 
 	}
 
