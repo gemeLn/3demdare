@@ -35,8 +35,14 @@ public class Player {
 	public void update() {
 		if (x + xvel > 480) {
 			Main.getInstance().getLevel().advance(xvel);
+			for (Hitbox h : hitboxes) {
+				h.shiftX(-xvel);
+			}
 		} else if (x + xvel < 0) {
 			Main.getInstance().getLevel().advance(xvel);
+			for (Hitbox h : hitboxes) {
+				h.shiftX(-xvel);
+			}
 		} else {
 			x += xvel;
 		}
@@ -47,7 +53,7 @@ public class Player {
 				break;
 			}
 		}
-		y+=yvel;
+		y += yvel;
 
 	}
 

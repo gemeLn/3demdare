@@ -9,10 +9,15 @@ public class Hitbox extends Rectangle {
 		width = Integer.parseInt(w);
 		height = Integer.parseInt(h);
 	}
+
 	public Hitbox(int x, int y, int w, int h) {
 		this.x = x;
-		this.y =y;
+		this.y = y;
 		width = w;
-		height =h;
+		height = h;
+	}
+
+	public void shiftX(int i) {
+		x += i;
 	}
 }
