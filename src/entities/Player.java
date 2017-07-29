@@ -34,8 +34,6 @@ public class Player {
 			Main.getInstance().getLevel().advance(xvel);
 		} else if (x + xvel < 0) {
 			Main.getInstance().getLevel().advance(xvel);
-		} else if (x + xvel < 0) {
-			Main.getInstance().getLevel().advance(xvel);
 		} else {
 			x += xvel;
 		}
