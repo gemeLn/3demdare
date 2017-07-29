@@ -14,6 +14,7 @@ import graphics.Texture;
 
 public class Level {
 	// Declare shit
+	int tileScale = 20;
 	Player player;
 	Screen screen;
 	Texture bg;
@@ -44,18 +45,19 @@ public class Level {
 			hitboxNumbers.add(tempString);
 			tempString = buff_in.readLine();
 		}
+		buff_in.close();
 		for (int i = 0; i < hitboxNumbers.size(); i++) {
 			StringTokenizer tempToken = new StringTokenizer(hitboxNumbers.get(i));
 			hitboxes.add(new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
-					tempToken.nextToken()));
+					tempToken.nextToken(), tileScale));
 		}
-
 	}
 
 	public void update() {
 		player.update();
+		System.out.println(onScreen.size());
 		for (Hitbox h : hitboxes) {
-			if (onScreen(h.x)||onScreen(h.x+h.width)) {
+			if (onScreen(h.x,h.x+h.width)) {
 				if (!onScreen.contains(h)) {
 					onScreen.add(h);
 				}
@@ -67,24 +69,27 @@ public class Level {
 		}
 	}
 
-	public boolean onScreen(int i) {
-		return (0 < i) && (i < 960);
+	public boolean onScreen(int i1, int i2) {
+		return !(i1<0&&i2<0)&&!(i1>960&&i2>960);
 	}
 
 	public void render() {
 		screen.drawTexture(ScreenPosX, 0, bg);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
-			screen.drawRect(h.x, h.y, h.width, h.height, 0xff0000);
+			screen.drawRect(h.x, h.y, h.width, h.height, 0xffffff);
 		}
 
 	}
 
 	public void advance(int xvel) {
-		ScreenPosX -= xvel;
-		for (Hitbox h : hitboxes) {
-			h.shiftX(-xvel);
+		if (ScreenPosX - xvel < 0) {
+			ScreenPosX -= xvel;
+			for (Hitbox h : hitboxes) {
+				h.shiftX(-xvel);
+			}
 		}
+
 	}
 
 	public KeyListener getListener() {
