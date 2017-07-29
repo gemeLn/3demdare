@@ -1,11 +1,13 @@
-package Level;
+ package Level;
 
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
+import entities.Hitbox;
 import entities.Player;
 import graphics.Screen;
 import graphics.Texture;
@@ -15,7 +17,8 @@ public class Level {
 	Player player;
 	Screen screen;
 	Texture bg;
-	ArrayList<String> hitbox = new ArrayList<String>();
+	ArrayList<String> hitboxNumbers = new ArrayList<String>();
+	ArrayList<Hitbox> hitboxs = new ArrayList<Hitbox>();
 	public int ScreenPosX = 0;
 
 	public Level(Screen screen) {
@@ -30,8 +33,13 @@ public class Level {
 		BufferedReader buff_in = new BufferedReader(in_file);
 		String tempString = buff_in.readLine();
 		while(tempString != null){
-			hitbox.add(tempString);
+			hitboxNumbers.add(tempString);
 			tempString = buff_in.readLine();
+		}
+		
+		for(int i = 0; i < hitboxNumbers.size(); i++){
+			StringTokenizer tempToken = new StringTokenizer(hitboxNumbers.get(i));
+			hitboxs.add(new Hitbox(tempToken.nextToken(),tempToken.nextToken(),tempToken.nextToken(),tempToken.nextToken()));
 		}
 		
 	}
