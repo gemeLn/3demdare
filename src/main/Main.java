@@ -16,7 +16,7 @@ public class Main {
 	Screen screen;
 	Level level;
 	static Main instance;
-	double fps = 1000 / 60;
+	double fps = 1000.0 / 120.0;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
 
@@ -25,13 +25,13 @@ public class Main {
 		return instance;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		Main main = new Main();
 		main.init();
 
 	}
 
-	void init() {
+	void init() throws InterruptedException {
 		instance = this;
 		state = State.Game;
 		//menu = new Menu();
@@ -46,7 +46,12 @@ public class Main {
 		return level;
 	}
 
-	private void loop() {
+	private void loop() throws InterruptedException {
+		int tick = 60;
+		int dTick = tick;
+		long start = System.currentTimeMillis();
+		Thread.sleep(1000);
+		long timeLR = System.currentTimeMillis();
 		while (MainLoopOn) {
 			if ((double) (System.currentTimeMillis() - timeLR) > fps) {
 				if (state == State.Menu) {
@@ -57,6 +62,13 @@ public class Main {
 					screen.clear(0xffffff);
 					level.update();
 					level.render();
+					if(start + 1000.0 < System.currentTimeMillis()){
+						start = System.currentTimeMillis();
+						dTick = tick;
+						tick = 0;
+					}	
+					screen.drawString("" + dTick, 20, 20);
+					tick++;
 					timeLR = System.currentTimeMillis();
 				}
 
