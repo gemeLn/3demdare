@@ -109,86 +109,37 @@ public class Player {
 
 	// Handling Key Inputs
 	public KeyListener listener = new KeyListener() {
-		
-		boolean pressed  = false;
-		
+		@Override
 		public void keyPressed(KeyEvent e) {
-			if(Main.getInstance().getState() == Main.State.Game){
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					walking = true;
-					xvel = -movespeed;
-					System.out.println("hi");
-					dir = -1;
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					walking = true;
-					xvel = +movespeed;
-					dir = 1;
-					System.out.println("hi");
-				}
-	
-				if (e.getKeyCode() == KeyEvent.VK_UP) {
-					jump();
-				}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				walking = true;
+				xvel = -movespeed;
+				System.out.println("hi");
+				dir = -1;
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				walking = true;
+				xvel = +movespeed;
+				dir = 1;
+				System.out.println("hi");
 			}
-			
-			if(Main.getInstance().getState() == Main.State.Menu){
-				if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-					if(!pressed){
-						Main.getInstance().getMenu().downPressed();
-						pressed = true;
-					}
-				}
-				
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
-					if(!pressed){
-						Main.getInstance().getMenu().upPressed();
-						pressed =  true;
-					}
-				}
-				
-				else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if(!pressed){
-						Main.getInstance().getMenu().leftPressed();
-						pressed =  true;
-					}
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					if(!pressed){
-						Main.getInstance().getMenu().rightPressed();
-						pressed =  true;
-					}
-				}
+
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
+				jump();
 			}
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if(Main.getInstance().getState() == Main.State.Game){
-				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					walking = false;
-					if (dir == -1) {
-						xvel = 0;
-					}
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					walking = false;
-					if (dir == 1) {
-						xvel = 0;
-					}
+			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				walking = false;
+				if (dir == -1) {
+					xvel = 0;
 				}
-				
-			}
-			if(Main.getInstance().getState() == Main.State.Menu){
-				if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
-					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
-					pressed = false;
+			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				walking = false;
+				if (dir == 1) {
+					xvel = 0;
 				}
 			}
 
