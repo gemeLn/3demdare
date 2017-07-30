@@ -18,6 +18,9 @@ public class Player {
 	private boolean checkYDone, checkXDone;
 	boolean walking;
 	boolean hitWall = false;
+	private long nextWallJump = 0;
+	private boolean walljump = false;
+	private long wallJumpCD = 1000;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
 		movespeed = 10;
@@ -27,7 +30,7 @@ public class Player {
 		yvel = 1;
 		totalJumps = 2;
 		jumps = totalJumps;
-		jumpHeight = 15;
+		jumpHeight = 16;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -42,7 +45,7 @@ public class Player {
 	public void update() {
 		// Collision Detect
 		// New Y Hitbox
-		//System.out.println(yvel);
+		// System.out.println(yvel);
 		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
 		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
@@ -55,19 +58,28 @@ public class Player {
 				break;
 			}
 			if (xbox.intersects(h)) {
+				// Wall
 				hitWall = true;
 				if (inAir) {
-					jumps = 1;
+					walljump = true;
+				}
+				if (dir == 1) {
+					x = h.x - w;
+				} else {
+					x = h.x + h.width;
 				}
 				checkXDone = true;
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
+					// Ceiling
 					yvel = 1;
 				} else {
+					// Ground
 					yvel = 0;
 					y = (int) (h.y - this.h);
 					inAir = false;
 					jumps = totalJumps;
+					walljump = false;
 				}
 				checkYDone = true;
 
@@ -80,15 +92,14 @@ public class Player {
 		}
 
 		if (inAir) {
-			//System.out.println("doing");
 			yvel++;
 		}
 		y += yvel;
 		// Shifting Background
 		if (x + xvel > 480 || x + xvel < 0) {
-			if(hitWall)
+			if (hitWall)
 				Main.getInstance().getLevel().advance(0);
-			else 
+			else
 				Main.getInstance().getLevel().advance(xvel);
 
 		} else {
@@ -98,8 +109,11 @@ public class Player {
 	}
 
 	public void jump() {
-
-		if (jumps > 0) {
+		if (walljump && System.currentTimeMillis() > nextWallJump) {
+			walljump = false;
+			yvel = -jumpHeight;
+			nextWallJump = System.currentTimeMillis() + wallJumpCD;
+		} else if (jumps > 0) {
 			inAir = true;
 			yvel = -jumpHeight;
 			jumps--;
@@ -109,53 +123,50 @@ public class Player {
 
 	// Handling Key Inputs
 	public KeyListener listener = new KeyListener() {
-		
-		boolean pressed  = false;
-		
+
+		boolean pressed = false;
+
 		public void keyPressed(KeyEvent e) {
-			if(Main.getInstance().getState() == Main.State.Game){
+			if (Main.getInstance().getState() == Main.State.Game) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					walking = true;
 					xvel = -movespeed;
-					System.out.println("hi");
 					dir = -1;
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					walking = true;
 					xvel = +movespeed;
 					dir = 1;
-					System.out.println("hi");
 				}
-	
+
 				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					jump();
 				}
 			}
-			
-			if(Main.getInstance().getState() == Main.State.Menu){
-				if(e.getKeyCode() == KeyEvent.VK_DOWN) {
-					if(!pressed){
+
+			if (Main.getInstance().getState() == Main.State.Menu) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+					if (!pressed) {
 						Main.getInstance().getMenu().downPressed();
 						pressed = true;
 					}
 				}
-				
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
-					if(!pressed){
+
+				else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					if (!pressed) {
 						Main.getInstance().getMenu().upPressed();
-						pressed =  true;
+						pressed = true;
 					}
 				}
-				
-				else if(e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if(!pressed){
+
+				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+					if (!pressed) {
 						Main.getInstance().getMenu().leftPressed();
-						pressed =  true;
+						pressed = true;
 					}
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					if(!pressed){
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					if (!pressed) {
 						Main.getInstance().getMenu().rightPressed();
-						pressed =  true;
+						pressed = true;
 					}
 				}
 			}
@@ -163,7 +174,7 @@ public class Player {
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			if(Main.getInstance().getState() == Main.State.Game){
+			if (Main.getInstance().getState() == Main.State.Game) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					walking = false;
 					if (dir == -1) {
@@ -175,19 +186,16 @@ public class Player {
 						xvel = 0;
 					}
 				}
-				
+
 			}
-			if(Main.getInstance().getState() == Main.State.Menu){
-				if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+			if (Main.getInstance().getState() == Main.State.Menu) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 					pressed = false;
-				}
-				else if(e.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
 					pressed = false;
 				}
 			}
