@@ -1,5 +1,9 @@
 package main;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import graphics.Screen;
@@ -7,9 +11,15 @@ import graphics.Texture;
 
 public class Menu {
 	Texture menuBackground;
+	Texture contactBackground;
+	
 	int currentbackground;
+	int currentcontact;
+	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
+	ArrayList<Texture> contact = new ArrayList<Texture>();
 
+	
 	public void render(Screen screen) {
 		screen.drawTexture(0, 0, menuBackground);
 	}
@@ -20,6 +30,7 @@ public class Menu {
 
 	public Menu() {
 		currentbackground = 0;
+		currentcontact = 0;
 		
 		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
@@ -27,6 +38,11 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundAppstore.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
+		
+		contactBackground = new Texture("Emi B.", "", 960, 540);
+		contact.add(new Texture("Dylan B.", "", 960, 540));
+		contact.add(new Texture("Geoffrey D.", "", 960, 540));
+		contact.add(new Texture("Matty T.", "", 960, 540));
 	}
 
 	//Select stuff
@@ -38,12 +54,14 @@ public class Menu {
 	public void upPressed() { // active when u press up key
 		currentbackground = 0;
 		menuBackground = menuHighlight.get(currentbackground);
-		//System.out.println("hi");
 	}
 
 	public void leftPressed() { // active when u press left key
 		if (currentbackground > 1) {
 			currentbackground --;
+		}
+		else if (currentcontact > 1) {
+			currentcontact --;
 		}
 		
 		menuBackground = menuHighlight.get(currentbackground);
@@ -53,9 +71,34 @@ public class Menu {
 		if (currentbackground < 4) {
 			currentbackground ++;
 		}
+		else if (currentcontact < 1) {
+			currentcontact ++;
+		}
 		
 		menuBackground = menuHighlight.get(currentbackground);
-	}
+	}	
+	
+	//Safareee link
+	public void safareee() {
+        String url = "https://ldjam.com/";
+
+        if(Desktop.isDesktopSupported()){
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                desktop.browse(new URI(url));
+            } catch (IOException | URISyntaxException e) {
+                e.printStackTrace();
+            }
+        }else{
+            Runtime runtime = Runtime.getRuntime();
+            try {
+                runtime.exec("xdg-open " + url);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+	
 	
 	//When you press enter on selected thing
 	public void enter() {
@@ -65,7 +108,7 @@ public class Menu {
 			return;
 			
 			//Safareee
-			case 1:
+			case 1: safareee();
 			return;
 			
 			//App Store
@@ -73,7 +116,7 @@ public class Menu {
 			return;
 			
 			//Contacts
-			case 3:
+			case 3: menuBackground = contactBackground;
 			return;
 			
 			//Settings
