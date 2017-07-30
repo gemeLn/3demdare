@@ -9,6 +9,8 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.Main;
+
 public class Screen {
 
 	private int width, height;
@@ -75,7 +77,7 @@ public class Screen {
 		for (int yy = y; yy < y + height; yy++) {
 			if (yy < 0 || yy >= this.height)
 				continue;
-			if(x > 0 && x < this.width)
+			if (x > 0 && x < this.width)
 				pixels[x + yy * this.width] = color;
 			if ((x + width) < this.width)
 				pixels[x + width + yy * this.width] = color;
@@ -108,7 +110,7 @@ public class Screen {
 			}
 		}
 	}
-	
+
 	public void fillRect(int x, int y, int width, int height, int color) {
 		for (int yy = y; yy < y + height; yy++) {
 			for (int xx = x; xx < x + width; xx++) {
@@ -124,7 +126,6 @@ public class Screen {
 			}
 		}
 	}
-
 
 	private int blend(int baseColor, int topColor) {
 		float br = ((baseColor & 0xff0000) >> 16) / 255.0f;
@@ -164,12 +165,24 @@ public class Screen {
 	public void drawString(String string, int x, int y, Font font, Color color) {
 		stringBuffer.add(new RenderableString(string, x, y, font, color));
 	}
-	
-	public void drawTexture(int x, int y, Texture texture){
+
+	public void drawTexture(int x, int y, Texture texture) {
 		drawTexture(x, y, texture, false);
 	}
+
+	public void drawBG(int a, int b,Texture texture) {
+		int[] og = texture.pixels;
+		int w = texture.getWidth();
+		int h = texture.getHeight();
+		int i = 0;
+		for(int k=0;k<h;k++){
+			for(int n=a;n<b;n++){
+				pixels[i] = og[n+(w*k)];
+				i++;
+			}
+		}
 		
-		
+	}
 
 	public void drawTexture(int x, int y, Texture texture, boolean flipX) {
 		for (int yy = 0; yy < texture.getHeight(); yy++) {
@@ -179,12 +192,12 @@ public class Screen {
 				// Bound checking goes here!
 				if (yo >= height || xo >= width || xo < 0 || yo < 0)
 					continue;
-				
-				//Flip x if needed
+
+				// Flip x if needed
 				int xf = xx;
-				if(flipX)
+				if (flipX)
 					xf = texture.getWidth() - xx - 1;
-				
+
 				int color = texture.pixels[xf + yy * texture.getWidth()];
 				if (color == 0xffff00ff)
 					continue;

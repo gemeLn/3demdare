@@ -94,7 +94,7 @@ public class Level {
 	}
 
 	public void render() {
-		screen.drawTexture(ScreenPosX, 0, bg);
+		screen.drawBG(-ScreenPosX, -ScreenPosX+960, bg);
 		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {

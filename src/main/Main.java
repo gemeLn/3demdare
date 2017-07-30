@@ -1,13 +1,16 @@
 package main;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.Color;
+import java.awt.Font;
 
 import Level.Level;
 import graphics.Screen;
 import graphics.Window;
 
 public class Main {
+	public static final int WIDTH = 960;
+	public static final int HEIGHT = 540;
+
 	public enum State {
 		Menu, Game;
 	}
@@ -42,45 +45,14 @@ public class Main {
 		screen = window.getScreen();
 		level = new Level(screen);
 		window.addKeyListener(level.getListener());
-		window.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getPoint());
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
+
 		loop();
 	}
 
 	public Level getLevel() {
 		return level;
 	}
-	
+
 	public Menu getMenu() {
 		return menu;
 	}
@@ -103,12 +75,12 @@ public class Main {
 					screen.clear(0xffffff);
 					level.update();
 					level.render();
-					if(start + 1000.0 < System.currentTimeMillis()){
+					if (start + 1000.0 < System.currentTimeMillis()) {
 						start = System.currentTimeMillis();
 						dTick = tick;
 						tick = 0;
-					}	
-					screen.drawString("" + dTick, 20, 20);
+					}
+					screen.drawString("" + dTick, 20, 20, new Font("Comic-Sans MS", 1, 20), Color.BLACK);
 					tick++;
 					timeLR = System.currentTimeMillis();
 				}
