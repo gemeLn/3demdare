@@ -3,7 +3,6 @@ package entities;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import graphics.Screen;
 import graphics.SpriteSheet;
@@ -71,14 +70,14 @@ public class Player {
 					Hitbox temp = tppads.get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
-						y = avg(temp.y, temp.y + temp.height)-(this.h/2);
+						y = avg(temp.y, temp.y + temp.height) - (this.h / 2);
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
 						}
 					} else if (dir == -1) {
 						x = temp.x - w;
-						y = avg(temp.y, temp.y + temp.height)-(this.h/2);
+						y = avg(temp.y, temp.y + temp.height) - (this.h / 2);
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;

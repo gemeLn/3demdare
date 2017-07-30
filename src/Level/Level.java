@@ -5,7 +5,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import entities.Hitbox;
@@ -32,7 +31,7 @@ public class Level {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/bg.png", 1920, 540);
+		bg = new Texture("BG", "/sprites/bg.png", 10000, 540);
 		try {
 			loadLevel(1);
 		} catch (IOException e) {
@@ -51,6 +50,7 @@ public class Level {
 			hitboxNumbers.add(tempString);
 			tempString = buff_in.readLine();
 		}
+		buff_in.close();
 		for (int i = 0; i < hitboxNumbers.size(); i++) {
 			String type;
 			Hitbox hitbox;
