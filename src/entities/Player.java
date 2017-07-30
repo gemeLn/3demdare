@@ -42,7 +42,7 @@ public class Player {
 	public void update() {
 		// Collision Detect
 		// New Y Hitbox
-		System.out.println(yvel);
+		//System.out.println(yvel);
 		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
 		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
@@ -75,15 +75,13 @@ public class Player {
 			}
 
 		}
-		if (hitWall == false && xvel == 0 && walking == true)
-			xvel = 10 * dir;
 		if (xbox.intersects(Main.getInstance().getLevel().getShutdown().getHitbox())) {
 			xvel = 0;
 			yvel = 0;
 		}
 
 		if (inAir) {
-			System.out.println("doing");
+			//System.out.println("doing");
 			yvel++;
 		}
 		y += yvel;
@@ -114,11 +112,13 @@ public class Player {
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 				walking = true;
 				xvel = -movespeed;
+				System.out.println("hi");
 				dir = -1;
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				walking = true;
 				xvel = +movespeed;
 				dir = 1;
+				System.out.println("hi");
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
