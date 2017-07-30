@@ -189,10 +189,11 @@ public class Player {
 					jump();
 				}
 			}
-
+			
+			//Menu Key Inputs
 			if (Main.getInstance().getState() == Main.State.Menu) {
 				
-					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 						Main.getInstance().getMenu().downPressed();
 				}
 				else if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -205,6 +206,9 @@ public class Player {
 				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 		
 						Main.getInstance().getMenu().rightPressed();
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Main.getInstance().getMenu().enter();
 				}
 			}
 		}

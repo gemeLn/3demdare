@@ -11,7 +11,6 @@ public class Menu {
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 
 	public void render(Screen screen) {
-
 		screen.drawTexture(0, 0, menuBackground);
 	}
 
@@ -30,6 +29,7 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
 	}
 
+	//Select stuff
 	public void downPressed() { // active when u press down key
 		currentbackground = 1;
 		menuBackground = menuHighlight.get(currentbackground);
@@ -41,7 +41,7 @@ public class Menu {
 		//System.out.println("hi");
 	}
 
-	public void leftPressed() { // etc...
+	public void leftPressed() { // active when u press left key
 		if (currentbackground > 1) {
 			currentbackground --;
 		}
@@ -49,11 +49,36 @@ public class Menu {
 		menuBackground = menuHighlight.get(currentbackground);
 	}
 
-	public void rightPressed() {
+	public void rightPressed() { // active when u press right key
 		if (currentbackground < 4) {
 			currentbackground ++;
 		}
 		
 		menuBackground = menuHighlight.get(currentbackground);
+	}
+	
+	//When you press enter on selected thing
+	public void enter() {
+		switch(currentbackground) {
+			//Play
+			case 0: Main.getInstance().setState(Main.State.Game);
+			return;
+			
+			//Safareee
+			case 1:
+			return;
+			
+			//App Store
+			case 2:
+			return;
+			
+			//Contacts
+			case 3:
+			return;
+			
+			//Settings
+			case 4:
+			return;
+		}
 	}
 }
