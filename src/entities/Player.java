@@ -20,7 +20,8 @@ public class Player {
 	boolean walking;
 	boolean hitWall = false;
 	private boolean walljump = false;
-	
+	private Hitbox walljumpBox;
+	private int walljumpStrict;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppads) {
 		movespeed = 10;
@@ -32,6 +33,7 @@ public class Player {
 		totalJumps = 1;
 		jumps = totalJumps;
 		jumpHeight = 16;
+		walljumpStrict = 15;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -87,8 +89,9 @@ public class Player {
 					hitWall = true;
 					if (inAir) {
 						// Walljump
-						if (h.getType() != Hitbox.NOJUMP&&h.checkJump()) {
+						if (h.getType() != Hitbox.NOJUMP && h.checkJump()) {
 							walljump = true;
+							walljumpBox = h;
 							h.jumped(System.currentTimeMillis());
 						}
 					}
@@ -161,7 +164,7 @@ public class Player {
 	}
 
 	public void jump() {
-		if (walljump) {
+		if (walljump && new Hitbox(x-walljumpStrict,y-walljumpStrict,x+w+walljumpStrict,y+h+walljumpStrict).intersects(walljumpBox)) {
 			walljump = false;
 			yvel = (int) (-jumpHeight * 5 / 4);
 		} else if (jumps > 0) {
