@@ -16,6 +16,7 @@ public class Player {
 	ArrayList<Hitbox> hitboxes;
 	boolean inAir = false;
 	private boolean checkYDone, checkXDone;
+	boolean hitWall = false;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
 		movespeed = 10;
@@ -43,6 +44,7 @@ public class Player {
 		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
 		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
+		hitWall = false;
 		inAir = true;
 		checkXDone = false;
 		checkYDone = false;
@@ -58,7 +60,7 @@ public class Player {
 				jumps = totalJumps;
 			}
 			if (xbox.intersects(h)) {
-				xvel = 0;
+				hitWall = true;
 				if (inAir) {
 					jumps = 1;
 				}
@@ -79,7 +81,8 @@ public class Player {
 			Main.getInstance().getLevel().advance(xvel);
 			
 		} else {
-			x += xvel;
+			if(!hitWall)
+				x += xvel;
 		}
 	}
 
@@ -103,7 +106,9 @@ public class Player {
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				xvel = +movespeed;
 				dir = 1;
-			} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+			} 
+			
+			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				jump();
 			}
 
