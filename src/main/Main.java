@@ -5,18 +5,18 @@ import graphics.Screen;
 import graphics.Window;
 
 public class Main {
-	enum State {
+	public enum State {
 		Menu, Game;
 	}
 
 	// Declare Variables Here
-	State state;
+	private State state;
 	Menu menu;
 	Window window = new Window("FastWalker", 960, 540);
 	Screen screen;
 	Level level;
 	static Main instance;
-	double fps = 1000.0 / 200.0;
+	double fps = 1000.0 / 100.0;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
 
@@ -33,7 +33,7 @@ public class Main {
 
 	void init() throws InterruptedException {
 		instance = this;
-		state = State.Game;
+		setState(State.Menu);
 		menu = new Menu();
 		window.show();
 		screen = window.getScreen();
@@ -45,6 +45,10 @@ public class Main {
 	public Level getLevel() {
 		return level;
 	}
+	
+	public Menu getMenu() {
+		return menu;
+	}
 
 	private void loop() throws InterruptedException {
 		int tick = 60;
@@ -54,12 +58,12 @@ public class Main {
 		long timeLR = System.currentTimeMillis();
 		while (MainLoopOn) {
 			if ((double) (System.currentTimeMillis() - timeLR) > fps) {
-				if (state == State.Menu) {
+				if (getState() == State.Menu) {
 					window.update();
 					screen.clear(0x000000);
 					menu.update();
 					menu.render(screen);
-				} else if (state == State.Game) {
+				} else if (getState() == State.Game) {
 					window.update();
 					screen.clear(0xffffff);
 					level.update();
@@ -76,5 +80,13 @@ public class Main {
 
 			}
 		}
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
 	}
 }
