@@ -14,8 +14,9 @@ public class Player {
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
-	boolean inAir = false;
+	boolean inAir = true;
 	private boolean checkYDone, checkXDone;
+	boolean walking;
 	boolean hitWall = false;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
@@ -38,7 +39,7 @@ public class Player {
 		screen.drawTexture(x, y, sprite);
 	}
 
-	public void update(Screen screen) {
+	public void update() {
 		// Collision Detect
 		// New Y Hitbox
 		System.out.println(yvel);
@@ -49,13 +50,13 @@ public class Player {
 		inAir = true;
 		checkXDone = false;
 		checkYDone = false;
-		screen.drawRect(xbox.x, xbox.y, w, h, 0x000000);
 		for (Hitbox h : hitboxes) {
 			if (checkXDone && checkYDone) {
 				break;
 			}
 			if (xbox.intersects(h)) {
 				hitWall = true;
+				xvel = 0;
 				if (inAir) {
 					jumps = 1;
 				}
@@ -74,12 +75,15 @@ public class Player {
 			}
 
 		}
+		if (hitWall == false && xvel == 0 && walking == true)
+			xvel = 10 * dir;
 		if (xbox.intersects(Main.getInstance().getLevel().getShutdown().getHitbox())) {
 			xvel = 0;
 			yvel = 0;
 		}
 
 		if (inAir) {
+			System.out.println("doing");
 			yvel++;
 		}
 		y += yvel;
@@ -108,9 +112,11 @@ public class Player {
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				walking = true;
 				xvel = -movespeed;
 				dir = -1;
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				walking = true;
 				xvel = +movespeed;
 				dir = 1;
 			}
@@ -124,10 +130,12 @@ public class Player {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				walking = false;
 				if (dir == -1) {
 					xvel = 0;
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				walking = false;
 				if (dir == 1) {
 					xvel = 0;
 				}

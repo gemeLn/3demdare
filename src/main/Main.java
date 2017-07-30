@@ -16,7 +16,7 @@ public class Main {
 	Screen screen;
 	Level level;
 	static Main instance;
-	double fps = 1000.0 / 120.0;
+	double fps = 1000.0 / 60.0;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
 
@@ -33,7 +33,7 @@ public class Main {
 
 	void init() throws InterruptedException {
 		instance = this;
-		state = State.Menu;
+		state = State.Game;
 		menu = new Menu();
 		window.show();
 		screen = window.getScreen();

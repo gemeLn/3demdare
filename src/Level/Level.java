@@ -35,7 +35,7 @@ public class Level {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		player = new Player(100, 100, 50, 50, "/sprites/xd.png", onScreen);
+		player = new Player(100, 150, 50, 50, "/sprites/xd.png", onScreen);
 	}
 
 	public void loadLevel(int level) throws IOException {
@@ -56,7 +56,7 @@ public class Level {
 	}
 
 	public void update() {
-		player.update(screen);
+		player.update();
 		//shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
@@ -76,7 +76,7 @@ public class Level {
 	}
 
 	public void render() {
-		//screen.drawTexture(ScreenPosX, 0, bg);
+		screen.drawTexture(ScreenPosX, 0, bg);
 		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
