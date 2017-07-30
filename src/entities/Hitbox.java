@@ -23,6 +23,7 @@ public class Hitbox extends Rectangle {
 
 	public final static int TPIN = 1;
 	public final static int TPOUT = 2;
+	public final static int NOJUMP = 3;
 	private int type;
 
 	public Hitbox(String x, String y, String w, String h, int m, String type) {

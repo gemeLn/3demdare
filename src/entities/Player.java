@@ -30,7 +30,7 @@ public class Player {
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
 		yvel = 1;
-		totalJumps = 2;
+		totalJumps = 1;
 		jumps = totalJumps;
 		jumpHeight = 16;
 		this.x = x;
@@ -87,7 +87,10 @@ public class Player {
 				} else {
 					hitWall = true;
 					if (inAir) {
-						walljump = true;
+						// Walljump
+						if (h.getType() != Hitbox.NOJUMP) {
+							walljump = true;
+						}
 					}
 					if (dir == 1) {
 						x = h.x - w;
@@ -160,7 +163,7 @@ public class Player {
 	public void jump() {
 		if (walljump && System.currentTimeMillis() > nextWallJump) {
 			walljump = false;
-			yvel = -jumpHeight;
+			yvel = (int)(-jumpHeight*5/4);
 			nextWallJump = System.currentTimeMillis() + wallJumpCD;
 		} else if (jumps > 0) {
 			inAir = true;
@@ -189,25 +192,22 @@ public class Player {
 					jump();
 				}
 			}
-			
-			//Menu Key Inputs
+
+			// Menu Key Inputs
 			if (Main.getInstance().getState() == Main.State.Menu) {
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-						Main.getInstance().getMenu().downPressed();
+					Main.getInstance().getMenu().downPressed();
+				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+					Main.getInstance().getMenu().upPressed();
 				}
-				else if (e.getKeyCode() == KeyEvent.VK_UP) {
-						Main.getInstance().getMenu().upPressed();
-				}
-		
+
 				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-						Main.getInstance().getMenu().leftPressed();
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-		
-						Main.getInstance().getMenu().rightPressed();
-				}
-				else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Main.getInstance().getMenu().leftPressed();
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+					Main.getInstance().getMenu().rightPressed();
+				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Main.getInstance().getMenu().enter();
 				}
 			}
@@ -234,7 +234,6 @@ public class Player {
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			
 
 		}
 
