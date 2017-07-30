@@ -56,8 +56,8 @@ public class Level {
 	}
 
 	public void update() {
-		player.update();
-		shutdown.update();
+		player.update(screen);
+		//shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
@@ -76,11 +76,11 @@ public class Level {
 	}
 
 	public void render() {
-		screen.drawTexture(ScreenPosX, 0, bg);
+		//screen.drawTexture(ScreenPosX, 0, bg);
 		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
-			screen.drawRect(h.x, h.y, h.width, h.height, 0xffffff);
+			screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
 		}
 
 	}

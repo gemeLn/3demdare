@@ -10,7 +10,7 @@ import graphics.Texture;
 import main.Main;
 
 public class Player {
-	private int x, y, w, h, dir, xvel, yvel, movespeed, jumps, totalJumps,jumpHeight;
+	private int x, y, w, h, dir, xvel, yvel, movespeed, jumps, totalJumps, jumpHeight;
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
@@ -26,7 +26,7 @@ public class Player {
 		yvel = 1;
 		totalJumps = 2;
 		jumps = totalJumps;
-		jumpHeight = 12;
+		jumpHeight = 15;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -38,9 +38,10 @@ public class Player {
 		screen.drawTexture(x, y, sprite);
 	}
 
-	public void update() {
+	public void update(Screen screen) {
 		// Collision Detect
 		// New Y Hitbox
+		System.out.println(yvel);
 		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
 		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
@@ -48,16 +49,10 @@ public class Player {
 		inAir = true;
 		checkXDone = false;
 		checkYDone = false;
+		screen.drawRect(xbox.x, xbox.y, w, h, 0x000000);
 		for (Hitbox h : hitboxes) {
 			if (checkXDone && checkYDone) {
 				break;
-			}
-			if (ybox.intersects(h)) {
-				yvel = 0;
-				y = (int) (h.y - this.h);
-				inAir = false;
-				checkYDone = true;
-				jumps = totalJumps;
 			}
 			if (xbox.intersects(h)) {
 				hitWall = true;
@@ -65,23 +60,35 @@ public class Player {
 					jumps = 1;
 				}
 				checkXDone = true;
+			} else if (ybox.intersects(h)) {
+				if (yvel < 0) {
+					yvel = 1;
+				} else {
+					yvel = 0;
+					y = (int) (h.y - this.h);
+					inAir = false;
+					jumps = totalJumps;
+				}
+				checkYDone = true;
+
 			}
+
 		}
-		if(xbox.intersects(Main.getInstance().getLevel().getShutdown().getHitbox())){
+		if (xbox.intersects(Main.getInstance().getLevel().getShutdown().getHitbox())) {
 			xvel = 0;
 			yvel = 0;
 		}
-		
+
 		if (inAir) {
 			yvel++;
 		}
 		y += yvel;
 		// Shifting Background
-		if (x + xvel > 480||x+xvel<0) {
+		if (x + xvel > 480 || x + xvel < 0) {
 			Main.getInstance().getLevel().advance(xvel);
-			
+
 		} else {
-			if(!hitWall)
+			if (!hitWall)
 				x += xvel;
 		}
 	}
@@ -106,8 +113,8 @@ public class Player {
 			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				xvel = +movespeed;
 				dir = 1;
-			} 
-			
+			}
+
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				jump();
 			}
