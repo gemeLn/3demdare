@@ -16,7 +16,7 @@ public class Main {
 	Screen screen;
 	Level level;
 	static Main instance;
-	double fps = 1000.0 / 200.0;
+	double fps = 1000.0 / 60.0;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
 

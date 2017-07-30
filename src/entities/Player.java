@@ -10,7 +10,7 @@ import graphics.Texture;
 import main.Main;
 
 public class Player {
-	private int x, y, w, h, dir, xvel, yvel, movespeed, jumps, totalJumps, jumpHeight;
+	private int x, y, w, h, dir, xvel, yvel, movespeed, defaultspeed, sprintspeed, jumps, totalJumps, jumpHeight;
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
@@ -18,9 +18,13 @@ public class Player {
 	private boolean checkYDone, checkXDone;
 	boolean walking;
 	boolean hitWall = false;
+	boolean walljump = true;
+	long nextWallJump = 0;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
-		movespeed = 10;
+		defaultspeed = 10;
+		movespeed = defaultspeed;
+		sprintspeed = 20;
 		this.hitboxes = hitboxes;
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
@@ -28,6 +32,7 @@ public class Player {
 		totalJumps = 2;
 		jumps = totalJumps;
 		jumpHeight = 15;
+
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -42,7 +47,7 @@ public class Player {
 	public void update() {
 		// Collision Detect
 		// New Y Hitbox
-		//System.out.println(yvel);
+		// System.out.println(yvel);
 		Hitbox ybox = new Hitbox(x, y + yvel + 1, w, h);
 		// New X Hitbox
 		Hitbox xbox = new Hitbox(x + xvel, y, w, h);
@@ -50,20 +55,29 @@ public class Player {
 		inAir = true;
 		checkXDone = false;
 		checkYDone = false;
+
 		for (Hitbox h : hitboxes) {
 			if (checkXDone && checkYDone) {
 				break;
 			}
 			if (xbox.intersects(h)) {
 				hitWall = true;
+				if (dir == 1) {
+					x = h.x - w;
+				} else {
+					x = h.x + h.width;
+				}
 				if (inAir) {
-					jumps = 1;
+					walljump = true;
 				}
 				checkXDone = true;
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
+					// ceiling
 					yvel = 1;
 				} else {
+					// floor
+					walljump = false;
 					yvel = 0;
 					y = (int) (h.y - this.h);
 					inAir = false;
@@ -80,15 +94,15 @@ public class Player {
 		}
 
 		if (inAir) {
-			//System.out.println("doing");
+			// System.out.println("doing");
 			yvel++;
 		}
 		y += yvel;
 		// Shifting Background
 		if (x + xvel > 480 || x + xvel < 0) {
-			if(hitWall)
+			if (hitWall)
 				Main.getInstance().getLevel().advance(0);
-			else 
+			else
 				Main.getInstance().getLevel().advance(xvel);
 
 		} else {
@@ -98,9 +112,19 @@ public class Player {
 	}
 
 	public void jump() {
+		if (walljump && System.currentTimeMillis() > nextWallJump) {
+			nextWallJump = System.currentTimeMillis() + 800;
+			if (dir == -1) {
+				//xvel = 10;
 
-		if (jumps > 0) {
+			} else {
+				//xvel = -10;
+			}
+			yvel = -jumpHeight;
+			walljump = false;
+		} else if (jumps > 0) {
 			inAir = true;
+			y--;
 			yvel = -jumpHeight;
 			jumps--;
 		}
@@ -111,20 +135,25 @@ public class Player {
 	public KeyListener listener = new KeyListener() {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				walking = true;
-				xvel = -movespeed;
-				System.out.println("hi");
-				dir = -1;
-			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				walking = true;
-				xvel = +movespeed;
-				dir = 1;
-				System.out.println("hi");
-			}
-
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 				jump();
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+				//if (!walljump) {
+					walking = true;
+					xvel = movespeed;
+					dir = 1;
+				//}
+			} else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+				//if (!walljump) {
+					walking = true;
+					xvel = -movespeed;
+					dir = -1;
+				//}
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				movespeed = sprintspeed;
 			}
 
 		}
@@ -136,11 +165,15 @@ public class Player {
 				if (dir == -1) {
 					xvel = 0;
 				}
-			} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			}
+			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				walking = false;
 				if (dir == 1) {
 					xvel = 0;
 				}
+			}
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				movespeed = defaultspeed;
 			}
 
 		}
