@@ -60,7 +60,8 @@ public class Menu {
 		if (currentbackground > 1) {
 			currentbackground --;
 		}
-		else if (currentcontact > 1) {
+		
+		else if (currentcontact > 0) {
 			currentcontact --;
 		}
 		
@@ -71,14 +72,15 @@ public class Menu {
 		if (currentbackground < 4) {
 			currentbackground ++;
 		}
-		else if (currentcontact < 1) {
+		
+		else if (currentcontact < 3) {
 			currentcontact ++;
 		}
 		
 		menuBackground = menuHighlight.get(currentbackground);
 	}	
 	
-	//Safareee link
+	//Safareee link thing (takes you to the LD website)
 	public void safareee() {
         String url = "https://ldjam.com/";
 
