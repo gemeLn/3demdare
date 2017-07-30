@@ -173,8 +173,6 @@ public class Player {
 	// Handling Key Inputs
 	public KeyListener listener = new KeyListener() {
 
-		boolean pressed = false;
-
 		public void keyPressed(KeyEvent e) {
 			if (Main.getInstance().getState() == Main.State.Game) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -193,30 +191,20 @@ public class Player {
 			}
 
 			if (Main.getInstance().getState() == Main.State.Menu) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					if (!pressed) {
+				
+					if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 						Main.getInstance().getMenu().downPressed();
-						pressed = true;
-					}
 				}
-
 				else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					if (!pressed) {
 						Main.getInstance().getMenu().upPressed();
-						pressed = true;
-					}
 				}
-
+		
 				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					if (!pressed) {
 						Main.getInstance().getMenu().leftPressed();
-						pressed = true;
-					}
-				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					if (!pressed) {
+				}
+				else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+		
 						Main.getInstance().getMenu().rightPressed();
-						pressed = true;
-					}
 				}
 			}
 		}
@@ -237,22 +225,12 @@ public class Player {
 				}
 
 			}
-			if (Main.getInstance().getState() == Main.State.Menu) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					pressed = false;
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					pressed = false;
-				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					pressed = false;
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					pressed = false;
-				}
-			}
 
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
+			
 
 		}
 

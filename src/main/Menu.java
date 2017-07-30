@@ -42,7 +42,7 @@ public class Menu {
 	}
 
 	public void leftPressed() { // etc...
-		if (currentbackground > 0) {
+		if (currentbackground > 1) {
 			currentbackground --;
 		}
 		
