@@ -26,7 +26,7 @@ public class Level {
 	ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
 	ArrayList<Hitbox> tpPads = new ArrayList<Hitbox>();
 	public int ScreenPosX = 0;
-
+	public static long wallCD = 800;
 	public Level(Screen screen) {
 		tpID = 0;
 		this.screen = screen;

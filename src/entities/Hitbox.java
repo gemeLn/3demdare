@@ -1,6 +1,7 @@
 package entities;
 
 import java.awt.Rectangle;
+import Level.Level;
 
 public class Hitbox extends Rectangle {
 	/**
@@ -24,7 +25,9 @@ public class Hitbox extends Rectangle {
 	public final static int TPIN = 1;
 	public final static int TPOUT = 2;
 	public final static int NOJUMP = 3;
+
 	private int type;
+	private long nextJump = 0;
 
 	public Hitbox(String x, String y, String w, String h, int m, String type) {
 		this.x = Integer.parseInt(x) * m;
@@ -32,6 +35,7 @@ public class Hitbox extends Rectangle {
 		width = Integer.parseInt(w) * m;
 		height = Integer.parseInt(h) * m;
 		this.type = Integer.parseInt(type);
+		nextJump = 0;
 	}
 
 	public Hitbox(int x, int y, int w, int h, int m) {
@@ -50,5 +54,13 @@ public class Hitbox extends Rectangle {
 
 	public void shiftX(int i) {
 		x += i;
+	}
+
+	public boolean checkJump() {
+		return (System.currentTimeMillis() > nextJump);
+	}
+
+	public void jumped(long i) {
+		nextJump = i + Level.wallCD;
 	}
 }
