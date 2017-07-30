@@ -1,5 +1,8 @@
 package main;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import Level.Level;
 import graphics.Screen;
 import graphics.Window;
@@ -39,6 +42,38 @@ public class Main {
 		screen = window.getScreen();
 		level = new Level(screen);
 		window.addKeyListener(level.getListener());
+		window.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println(e.getPoint());
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		loop();
 	}
 

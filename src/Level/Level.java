@@ -5,17 +5,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import entities.Hitbox;
-import entities.Shutdown;
 import entities.Player;
+import entities.Shutdown;
 import graphics.Screen;
 import graphics.Texture;
 
 public class Level {
 	// Declare shit
 	int tileScale = 20;
+	int tpID = 0;;
 	Player player;
 	Shutdown shutdown;
 	Screen screen;
@@ -23,9 +25,11 @@ public class Level {
 	ArrayList<Hitbox> onScreen = new ArrayList<Hitbox>();
 	ArrayList<String> hitboxNumbers = new ArrayList<String>();
 	ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
+	ArrayList<Hitbox> tpPads = new ArrayList<Hitbox>();
 	public int ScreenPosX = 0;
 
 	public Level(Screen screen) {
+		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
 		bg = new Texture("BG", "/sprites/bg.png", 1920, 540);
@@ -35,7 +39,7 @@ public class Level {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		player = new Player(100, 150, 50, 50, "/sprites/xd.png", onScreen);
+		player = new Player(100, 150, 50, 50, "/sprites/xd.png", onScreen, tpPads);
 	}
 
 	public void loadLevel(int level) throws IOException {
@@ -48,16 +52,30 @@ public class Level {
 			tempString = buff_in.readLine();
 		}
 		for (int i = 0; i < hitboxNumbers.size(); i++) {
+			String type;
+			Hitbox hitbox;
 			StringTokenizer tempToken = new StringTokenizer(hitboxNumbers.get(i));
-			hitboxes.add(new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
-					tempToken.nextToken(), tileScale));
+			hitboxes.add(hitbox = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
+					tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
+			if (Integer.parseInt(type) == Hitbox.TPIN) {
+
+				hitbox.setTPID(tpID);
+				i++;
+				tempToken = new StringTokenizer(hitboxNumbers.get(i));
+				Hitbox hitbox2;
+				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
+						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
+				tpPads.add(hitbox2);
+				tpID++;
+			}
+
 		}
 
 	}
 
 	public void update() {
 		player.update();
-		//shutdown.update();
+		// shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
@@ -80,7 +98,11 @@ public class Level {
 		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
-			screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
+			if (h.getType() == 1) {
+				screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
+			} else {
+				screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
+			}
 		}
 
 	}
@@ -90,7 +112,7 @@ public class Level {
 		for (Hitbox h : hitboxes) {
 			h.shiftX(-xvel);
 		}
-		
+
 		shutdown.getHitbox().shiftX(-xvel);
 	}
 

@@ -3,6 +3,7 @@ package entities;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import graphics.Screen;
 import graphics.SpriteSheet;
@@ -14,6 +15,7 @@ public class Player {
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
+	ArrayList<Hitbox> tppads;
 	boolean inAir = true;
 	private boolean checkYDone, checkXDone;
 	boolean walking;
@@ -22,9 +24,10 @@ public class Player {
 	private boolean walljump = false;
 	private long wallJumpCD = 1000;
 
-	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes) {
+	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppads) {
 		movespeed = 10;
 		this.hitboxes = hitboxes;
+		this.tppads = tppads;
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
 		yvel = 1;
@@ -42,7 +45,12 @@ public class Player {
 		screen.drawTexture(x, y, sprite);
 	}
 
+	public int avg(int i1, int i2) {
+		return (int) ((i1 + i2) / 2);
+	}
+
 	public void update() {
+		// System.out.println(x);
 		// Collision Detect
 		// New Y Hitbox
 		// System.out.println(yvel);
@@ -59,27 +67,69 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				// Wall
-				hitWall = true;
-				if (inAir) {
-					walljump = true;
-				}
-				if (dir == 1) {
-					x = h.x - w;
+				if (h.getType() == Hitbox.TPIN) {
+					Hitbox temp = tppads.get(h.getTPID());
+					if (dir == 1) {
+						x = temp.x + temp.width;
+						y = avg(temp.y, temp.y + temp.height)-(this.h/2);
+						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						}
+					} else if (dir == -1) {
+						x = temp.x - w;
+						y = avg(temp.y, temp.y + temp.height)-(this.h/2);
+						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						}
+					}
+
 				} else {
-					x = h.x + h.width;
+					hitWall = true;
+					if (inAir) {
+						walljump = true;
+					}
+					if (dir == 1) {
+						x = h.x - w;
+					} else {
+						x = h.x + h.width;
+					}
 				}
 				checkXDone = true;
+
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					yvel = 1;
+					if (h.getType() == Hitbox.TPIN) {
+						Hitbox temp = tppads.get(h.getTPID());
+						x = temp.x - w;
+						y = temp.y - this.h;
+						yvel = -jumpHeight;
+						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						}
+					} else {
+						yvel = 1;
+					}
 				} else {
 					// Ground
-					yvel = 0;
-					y = (int) (h.y - this.h);
-					inAir = false;
-					jumps = totalJumps;
-					walljump = false;
+					if (h.getType() == Hitbox.TPIN) {
+						Hitbox temp = tppads.get(h.getTPID());
+						x = avg(temp.x, temp.x + temp.width) - (w / 2);
+						y = temp.y + temp.height;
+						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						}
+					} else {
+						yvel = 0;
+						y = (int) (h.y - this.h);
+						inAir = false;
+						jumps = totalJumps;
+						walljump = false;
+					}
 				}
 				checkYDone = true;
 

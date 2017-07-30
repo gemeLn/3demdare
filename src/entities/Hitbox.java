@@ -3,11 +3,34 @@ package entities;
 import java.awt.Rectangle;
 
 public class Hitbox extends Rectangle {
-	public Hitbox(String x, String y, String w, String h, int m) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int tpID;
+
+	public int getType() {
+		return type;
+	}
+
+	public int getTPID() {
+		return tpID;
+	}
+
+	public void setTPID(int i) {
+		tpID = i;
+	}
+
+	public final static int TPIN = 1;
+	public final static int TPOUT = 2;
+	private int type;
+
+	public Hitbox(String x, String y, String w, String h, int m, String type) {
 		this.x = Integer.parseInt(x) * m;
 		this.y = Integer.parseInt(y) * m;
 		width = Integer.parseInt(w) * m;
 		height = Integer.parseInt(h) * m;
+		this.type = Integer.parseInt(type);
 	}
 
 	public Hitbox(int x, int y, int w, int h, int m) {
@@ -21,7 +44,7 @@ public class Hitbox extends Rectangle {
 		this.x = x;
 		this.y = y;
 		width = w;
-		height = h ;
+		height = h;
 	}
 
 	public void shiftX(int i) {
