@@ -56,7 +56,6 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				hitWall = true;
-				xvel = 0;
 				if (inAir) {
 					jumps = 1;
 				}
@@ -87,7 +86,10 @@ public class Player {
 		y += yvel;
 		// Shifting Background
 		if (x + xvel > 480 || x + xvel < 0) {
-			Main.getInstance().getLevel().advance(xvel);
+			if(hitWall)
+				Main.getInstance().getLevel().advance(0);
+			else 
+				Main.getInstance().getLevel().advance(xvel);
 
 		} else {
 			if (!hitWall)
