@@ -33,8 +33,8 @@ public class Main {
 
 	void init() throws InterruptedException {
 		instance = this;
-		state = State.Game;
-		//menu = new Menu();
+		state = State.Menu;
+		menu = new Menu();
 		window.show();
 		screen = window.getScreen();
 		level = new Level(screen);
@@ -55,6 +55,8 @@ public class Main {
 		while (MainLoopOn) {
 			if ((double) (System.currentTimeMillis() - timeLR) > fps) {
 				if (state == State.Menu) {
+					window.update();
+					screen.clear(0x000000);
 					menu.update();
 					menu.render(screen);
 				} else if (state == State.Game) {
