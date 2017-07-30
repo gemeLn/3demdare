@@ -36,7 +36,7 @@ public class Main {
 
 	void init() throws InterruptedException {
 		instance = this;
-		setState(State.Game);
+		setState(State.Menu);
 		menu = new Menu();
 		window.show();
 		screen = window.getScreen();

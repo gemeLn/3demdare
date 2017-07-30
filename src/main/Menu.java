@@ -24,10 +24,10 @@ public class Menu {
 		
 		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
-		menuHighlight.add(new Texture("Menu Safareee", "/sprites/menubackgroundPlay.png", 960, 540));
-		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundPlay.png", 960, 540));
-		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundPlay.png", 960, 540));
-		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundPlay.png", 960, 540));
+		menuHighlight.add(new Texture("Menu Safareee", "/sprites/menubackgroundSafareee.png", 960, 540));
+		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundAppstore.png", 960, 540));
+		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
+		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
 	}
 
 	public void downPressed() { // active when u press down key
@@ -42,7 +42,7 @@ public class Menu {
 	}
 
 	public void leftPressed() { // etc...
-		if (menuBackground > 0) {
+		if (currentbackground > 0) {
 			currentbackground --;
 		}
 		
@@ -50,7 +50,7 @@ public class Menu {
 	}
 
 	public void rightPressed() {
-		if (menuBackground > 0) {
+		if (currentbackground < 4) {
 			currentbackground ++;
 		}
 		
