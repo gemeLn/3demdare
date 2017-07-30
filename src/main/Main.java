@@ -22,7 +22,8 @@ public class Main {
 	Screen screen;
 	Level level;
 	static Main instance;
-	double fps = 1000.0 / 60.0;
+	double fps = 1000.0 / 75.0;
+	double fpsD = 70.0;
 	long timeLR = System.currentTimeMillis();
 	boolean MainLoopOn = true;
 
@@ -78,6 +79,13 @@ public class Main {
 					if (start + 1000.0 < System.currentTimeMillis()) {
 						start = System.currentTimeMillis();
 						dTick = tick;
+						if(dTick < 55){
+							fpsD += 1;
+							fps = 1000.0/fpsD;
+						} else if(dTick > 65){
+							fpsD -= 1;
+							fps = 1000.0/fpsD;
+						}
 						tick = 0;
 					}
 					screen.drawString("" + dTick, 20, 20, new Font("Comic-Sans MS", 1, 20), Color.BLACK);
