@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -40,6 +41,8 @@ public class Main {
 
 	}
 
+	Point previous = new Point();
+
 	void init() throws InterruptedException {
 		instance = this;
 		setState(State.Menu);
@@ -49,6 +52,7 @@ public class Main {
 		screen = window.getScreen();
 		level = new Level(screen);
 		window.addKeyListener(level.getListener());
+
 		window.addMouseListener(new MouseListener() {
 
 			@Override
@@ -59,7 +63,13 @@ public class Main {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getX() - level.ScreenPosX + "," + e.getY());
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					previous = e.getPoint();
+					System.out.println(e.getX() - level.ScreenPosX + "," + e.getY());
+
+				} else if (e.getButton() == MouseEvent.BUTTON3) {
+					System.out.println("W:" + (e.getX() - previous.x) + ", H:" + (e.getY() - previous.y));
+				}
 
 			}
 
