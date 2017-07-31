@@ -189,6 +189,8 @@ public class Player {
 					} else if (h.getType() == Hitbox.DIE){
 						yvel = 0;
 						Main.getInstance().setState(Main.State.Menu);
+						Main.getInstance().getMenu().setMenuState(Menu.State.lose);
+						Main.getInstance().getMenu().setLoseBG();
 					}else {
 						yvel = 0;
 						y = (int) (h.y - this.h);
