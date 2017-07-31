@@ -2,6 +2,7 @@ package entities;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import graphics.Screen;
@@ -9,6 +10,7 @@ import graphics.SpriteSheet;
 import graphics.Texture;
 import main.Animation;
 import main.Main;
+import main.Menu;
 
 public class Player {
 	private int x, y, w, h, dir, xvel, yvel, movespeed, jumps, totalJumps, jumpHeight;
@@ -202,8 +204,9 @@ public class Player {
 
 		}
 		if (xbox.intersects(Main.getInstance().getLevel().getShutdown().getHitbox())) {
-			xvel = 0;
-			yvel = 0;
+			Main.getInstance().setState(Main.State.Menu);
+			Main.getInstance().getMenu().setMenuState(Menu.State.lose);
+			Main.getInstance().getMenu().setLoseBG();
 		}
 
 		if (inAir && yvel < gcap) {
@@ -300,7 +303,12 @@ public class Player {
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 					Main.getInstance().getMenu().rightPressed();
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Main.getInstance().getMenu().enter();
+					try {
+						Main.getInstance().getMenu().enter();
+					} catch (IOException e1) {
+					}
+				}else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					Main.getInstance().getMenu().escape();
 				}
 			}
 		}
@@ -339,6 +347,14 @@ public class Player {
 
 	public KeyListener getListener() {
 		return listener;
+	}
+
+	public void setX(int i) {
+		x = i;
+	}
+
+	public void setY(int i) {
+		y = i;
 	}
 
 }
