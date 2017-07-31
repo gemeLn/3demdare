@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import graphics.Screen;
 import graphics.SpriteSheet;
 import graphics.Texture;
+import main.Animation;
 import main.Main;
 
 public class Player {
@@ -22,22 +23,32 @@ public class Player {
 	private boolean walljump = false;
 	private Hitbox walljumpBox;
 	private int walljumpStrict;
+	Animation animation;
+	SpriteSheet player;
+	Texture players;
+	int index;
+	int tick;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppads) {
 		movespeed = 10;
 		this.hitboxes = hitboxes;
 		this.tppads = tppads;
 		sprite = new Texture("XD", path, w, h);
+		sprite = player.getTexture(1, 1);
 		xvel = 0;
 		yvel = 1;
 		totalJumps = 1;
 		jumps = totalJumps;
 		jumpHeight = 16;
 		walljumpStrict = 15;
+		index = 6;
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		animation = new Animation();
+		players = new Texture("/sprites/xd.png",1150, 50);
+		player = new SpriteSheet(players, 50, 50);
 
 	}
 
@@ -161,6 +172,11 @@ public class Player {
 			if (!hitWall)
 				x += xvel;
 		}
+		if(tick%6 == 0){
+			index++;
+			//sprite = player.getTexture(1, 1);
+		}
+		tick++;
 	}
 
 	public void jump() {
