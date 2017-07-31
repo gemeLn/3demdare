@@ -16,6 +16,9 @@ public class Menu {
 	int currentbackground;
 	int currentcontact;
 	
+	boolean contactOn;
+	boolean contactFirst;
+	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 	ArrayList<Texture> contact = new ArrayList<Texture>();
 
@@ -32,6 +35,9 @@ public class Menu {
 		currentbackground = 0;
 		currentcontact = 0;
 		
+		contactOn = false;
+		contactFirst = false;
+		
 		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Safareee", "/sprites/menubackgroundSafareee.png", 960, 540));
@@ -39,45 +45,62 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
 		
-		contactBackground = new Texture("Emi B.", "", 960, 540);
-		contact.add(new Texture("Dylan B.", "", 960, 540));
-		contact.add(new Texture("Geoffrey D.", "", 960, 540));
-		contact.add(new Texture("Matty T.", "", 960, 540));
+		contactBackground = new Texture("Contacts", "/sprites/contacts.png", 960, 540);
+		contact.add(new Texture("Emi B.", "/sprites/contactsEmi.png", 960, 540));
+		contact.add(new Texture("Dylan B.", "/sprites/contactsDylan.png", 960, 540));
+		contact.add(new Texture("Geoffrey D.", "/sprites/contactsGeoffrey.png", 960, 540));
+		contact.add(new Texture("Matty T.", "/sprites/contactsMatty.png", 960, 540));
 	}
 
 	//Select stuff
 	public void downPressed() { // active when u press down key
-		currentbackground = 1;
-		menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false && contactFirst == false) {
+			currentbackground = 1;
+			menuBackground = menuHighlight.get(currentbackground);
+		}
 	}
 
 	public void upPressed() { // active when u press up key
-		currentbackground = 0;
-		menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false && contactFirst == false) {
+			currentbackground = 0;
+			menuBackground = menuHighlight.get(currentbackground);
+		}
 	}
 
 	public void leftPressed() { // active when u press left key
-		if (currentbackground > 1) {
-			currentbackground --;
+		if (contactOn == false && contactFirst == false) {
+			if (currentbackground > 1) {
+				currentbackground --;
+				menuBackground = menuHighlight.get(currentbackground);
+			}
 		}
-		
-		else if (currentcontact > 0) {
-			currentcontact --;
+		else if(contactOn) {
+			if (currentcontact > 0) {
+				currentcontact --;
+				menuBackground = contact.get(currentcontact);
+			}
+		} else {
+			menuBackground = contact.get(0);
+			contactOn = true;
 		}
-		
-		menuBackground = menuHighlight.get(currentbackground);
 	}
 
 	public void rightPressed() { // active when u press right key
-		if (currentbackground < 4) {
-			currentbackground ++;
+		if (contactOn == false && contactFirst == false) {
+			if (currentbackground < 4) {
+				currentbackground ++;
+				menuBackground = menuHighlight.get(currentbackground);
+			}
 		}
-		
-		else if (currentcontact < 3) {
-			currentcontact ++;
+		else if(contactOn){
+			if (currentcontact < 3) {
+				currentcontact ++;
+				menuBackground = contact.get(currentcontact);
+			}
+		} else {
+			menuBackground = contact.get(0);
+			contactOn = true;
 		}
-		
-		menuBackground = menuHighlight.get(currentbackground);
 	}	
 	
 	//Safareee link thing (takes you to the LD website)
@@ -91,7 +114,8 @@ public class Menu {
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
-        }else{
+        }
+        else{
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec("xdg-open " + url);
@@ -119,6 +143,7 @@ public class Menu {
 			
 			//Contacts
 			case 3: menuBackground = contactBackground;
+					contactFirst = true;
 			return;
 			
 			//Settings
