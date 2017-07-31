@@ -38,7 +38,7 @@ public class Level {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		player = new Player(100, 150, 50, 50, "/sprites/xd.png", onScreen, tpPads);
+		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPads);
 	}
 
 	public void loadLevel(int level) throws IOException {

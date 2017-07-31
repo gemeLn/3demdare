@@ -46,8 +46,8 @@ public class Player {
 		this.w = w;
 		this.h = h;
 		animation = new Animation();
-		players = new Texture("/sprites/walk.png",1150, 50);
-		player = new SpriteSheet(players, 50, 50);
+		players = new Texture("/sprites/walk.png",26 * w, w);
+		player = new SpriteSheet(players, w, h);
 
 	}
 
