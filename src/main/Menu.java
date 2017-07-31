@@ -195,5 +195,9 @@ public class Menu {
 		}
 		
 	}
+
+	public void escape() {
+		
+	}
 	
 }
