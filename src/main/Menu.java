@@ -12,15 +12,20 @@ import graphics.Texture;
 public class Menu {
 	Texture menuBackground;
 	Texture contactBackground;
+	Texture currentApp;
+	Texture controlsDisplay;
 	
 	int currentbackground;
 	int currentcontact;
+	int currentapp;
 	
 	boolean contactOn;
 	boolean contactFirst;
+	boolean appSelectOn;
 	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 	ArrayList<Texture> contact = new ArrayList<Texture>();
+	ArrayList<Texture> app = new ArrayList<Texture>();
 
 	
 	public void render(Screen screen) {
@@ -34,11 +39,12 @@ public class Menu {
 	public Menu() {
 		currentbackground = 0;
 		currentcontact = 0;
+		currentapp = 0;
 		
 		contactOn = false;
 		contactFirst = false;
 		
-		
+		//Menu textures
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Safareee", "/sprites/menubackgroundSafareee.png", 960, 540));
 		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundAppstore.png", 960, 540));
@@ -46,11 +52,19 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
 		menuBackground = menuHighlight.get(0); 
 		
+		//Contact textures
 		contactBackground = new Texture("Contacts", "/sprites/contacts.png", 960, 540);
 		contact.add(new Texture("Emi B.", "/sprites/contactsEmi.png", 960, 540));
 		contact.add(new Texture("Dylan B.", "/sprites/contactsDylan.png", 960, 540));
 		contact.add(new Texture("Geoffrey D.", "/sprites/contactsGeoffrey.png", 960, 540));
 		contact.add(new Texture("Matty T.", "/sprites/contactsMatty.png", 960, 540));
+		
+		//App select texture(s)?
+		currentApp = new Texture("", "", 960, 540);
+		app.add(new Texture("", "", 960, 540));
+		
+		//Controls
+		controlsDisplay = new Texture("Controls", "/sprites/controls.png", 960, 540);
 	}
 
 	//Select stuff
@@ -80,7 +94,8 @@ public class Menu {
 				currentcontact --;
 				menuBackground = contact.get(currentcontact);
 			}
-		} else {
+		} 
+		else {
 			menuBackground = contact.get(0);
 			contactOn = true;
 		}
@@ -98,7 +113,8 @@ public class Menu {
 				currentcontact ++;
 				menuBackground = contact.get(currentcontact);
 			}
-		} else {
+		} 
+		else {
 			menuBackground = contact.get(0);
 			contactOn = true;
 		}
@@ -126,9 +142,12 @@ public class Menu {
         }
     }
 	
+	//Escape!!!
+	
 	
 	//When you press enter on selected thing
 	public void enter() {
+		//Main menu
 		switch(currentbackground) {
 			//Play
 			case 0: Main.getInstance().setState(Main.State.Game);
@@ -139,7 +158,7 @@ public class Menu {
 			return;
 			
 			//App Store
-			case 2:
+			case 2: 
 			return;
 			
 			//Contacts
@@ -148,8 +167,33 @@ public class Menu {
 			return;
 			
 			//Settings
+			case 4: menuBackground = controlsDisplay;
+			return;
+		}
+		
+		//App select (level select)
+		switch(currentapp) {
+			//Messages
+			case 0: 
+			return;
+			
+			//Reddit
+			case 1:
+			return;
+			
+			//YouTube
+			case 2:
+			return;
+			
+			//Pokemon Go
+			case 3:
+			return;
+			
+			//Internet
 			case 4:
 			return;
 		}
+		
 	}
+	
 }
