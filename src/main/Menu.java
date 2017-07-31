@@ -61,9 +61,13 @@ public class Menu {
 		contact.add(new Texture("Geoffrey D.", "/sprites/contactsGeoffrey.png", 960, 540));
 		contact.add(new Texture("Matty T.", "/sprites/contactsMatty.png", 960, 540));
 		
-		//App select texture(s)?
-		currentApp = new Texture("", "", 960, 540);
-		app.add(new Texture("", "", 960, 540));
+		//App select textures
+		currentApp = new Texture("Select", "/sprites/appselect.png", 960, 540);
+		app.add(new Texture("Messages", "/sprites/appselectmessages.png", 960, 540));
+		app.add(new Texture("Reddit", "/sprites/appselectreddit.png", 960, 540));
+		app.add(new Texture("YouTube", "/sprites/appselectyoutube.png", 960, 540));
+		app.add(new Texture("Snapchat", "/sprites/appselectsnapchat.png", 960, 540));
+		app.add(new Texture("Internet", "/sprites/appselectinternet.png", 960, 540));
 		
 		//Controls
 		controlsDisplay = new Texture("Controls", "/sprites/controls.png", 960, 540);
@@ -91,6 +95,12 @@ public class Menu {
 				menuBackground = menuHighlight.get(currentbackground);
 			}
 		}
+		if(appSelectOn == true) {
+			if (currentapp > 0) {
+				currentapp --;
+				menuBackground = app.get(currentapp);
+			}
+		}
 		else if(contactOn) {
 			if (currentcontact > 0) {
 				currentcontact --;
@@ -108,6 +118,12 @@ public class Menu {
 			if (currentbackground < 4) {
 				currentbackground ++;
 				menuBackground = menuHighlight.get(currentbackground);
+			}
+		}
+		if (appSelectOn == true) {
+			if (currentapp < 5) {
+				currentapp ++;
+				menuBackground = app.get(currentapp);
 			}
 		}
 		else if(contactOn){
@@ -144,7 +160,7 @@ public class Menu {
                 e.printStackTrace();
             }
         }
-        else{
+        else {
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec("xdg-open " + url);
@@ -156,53 +172,57 @@ public class Menu {
 	
 	//When you press enter on selected thing
 	public void enter() {
-		//Main menu
-		switch(currentbackground) {
-			//Play
-			case 0: Main.getInstance().setState(Main.State.Game);
-			return;
-			
-			//Safareee
-			case 1: safareee();
-			return;
-			
-			//App Store
-			case 2: 
-			return;
-			
-			//Contacts
-			case 3: menuBackground = contactBackground;
-					contactsOn = true;
-					contactFirst = true;
-			return;
-			
-			//Settings
-			case 4: menuBackground = controlsDisplay;
-					optionsOn = true;
-			return;
-		}
-		
 		//App select (level select)
-		switch(currentapp) {
-			//Messages
-			case 0: 
-			return;
+		if (appSelectOn == true){ 
+			switch(currentapp) {
+				//Messages
+				case 0: 
+				return;
+				
+				//Reddit
+				case 1: 
+				return;
+				
+				//YouTube
+				case 2: Main.getInstance().setState(Main.State.Game);
+				return;
+				
+				//Snapchat
+				case 3: 
+				return;
+				
+				//Internet
+				case 4: 
+				return;
+			}	
+		}
+		//Main menu
+		else if (appSelectOn == false && contactsOn == false){
+			switch(currentbackground) {
+				//Play
+				case 0: menuBackground = currentApp;
+						appSelectOn = true;
+				return;
 			
-			//Reddit
-			case 1:
-			return;
+				//Safareee
+				case 1: safareee();
+				return;
 			
-			//YouTube
-			case 2:
-			return;
+				//App Store
+				case 2: 
+				return;
 			
-			//Pokemon Go
-			case 3:
-			return;
+				//Contacts
+				case 3: menuBackground = contactBackground;
+						contactsOn = true;
+						contactFirst = true;
+				return;
 			
-			//Internet
-			case 4:
-			return;
-		}	
+				//Settings
+				case 4: menuBackground = controlsDisplay;
+						optionsOn = true;
+				return;
+			}
+		}
 	}
 }
