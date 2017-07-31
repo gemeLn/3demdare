@@ -6,20 +6,25 @@ public class Shutdown {
 	private Hitbox hitbox;
 	long tick = -60;
 	boolean gameStart;
-	
-	public Shutdown(){
+
+	public Shutdown() {
 		setHitbox(new Hitbox(0, 0, 0, 540));
+		hitbox.setType(Hitbox.SHUTDOWN);
 	}
-	
-	public void update(){
+
+	public void update() {
 		tick++;
-		if(tick%1 == 0 && tick > 0){
-			getHitbox().width+= 7;
+		if (tick % 1 == 0 && tick > 0) {
+			getHitbox().width += 7;
 		}
 	}
-	
-	public void render(Screen screen){
-		screen.fillRect(getHitbox().x, getHitbox().y, getHitbox().width, getHitbox().height, 0x000000);
+
+	public void minusWidth(int i) {
+		hitbox.width -= i;
+	}
+
+	public void render(Screen screen) {
+		screen.fillRect(0, 0, getHitbox().width, getHitbox().height, 0x000000);
 	}
 
 	public Hitbox getHitbox() {
@@ -29,9 +34,9 @@ public class Shutdown {
 	public void setHitbox(Hitbox hitbox) {
 		this.hitbox = hitbox;
 	}
-	
-	public void changeGameStart(boolean change){
+
+	public void changeGameStart(boolean change) {
 		gameStart = change;
 	}
-	
+
 }

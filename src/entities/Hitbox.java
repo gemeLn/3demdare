@@ -22,6 +22,10 @@ public class Hitbox extends Rectangle {
 		tpID = i;
 	}
 
+	public void setType(int i) {
+		type = i;
+	}
+
 	public final static int TPINUP = 1;
 	public final static int TPOUT = 2;
 	public final static int TP2Way = 5;
@@ -29,6 +33,7 @@ public class Hitbox extends Rectangle {
 	public final static int ICE = 4;
 	public final static int TPINSIDE = 6;
 	public final static int DIE = 7;
+	public final static int SHUTDOWN = 99;
 
 	private int type;
 	private long nextJump = 0;
