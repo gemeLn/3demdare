@@ -17,6 +17,7 @@ public class Level {
 	// Declare shit
 	int tileScale = 10;
 	int tpID = 0;;
+	int level;
 	Player player;
 	Shutdown shutdown;
 	Screen screen;
@@ -30,22 +31,24 @@ public class Level {
 	public static long wallCD = 800;
 
 	public Level(Screen screen) {
+		level = 1;
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/youtube.png", 10000, 540);
 		System.out.println("Bg ran");
-		try {
-			loadLevel(4);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPadsIn, tpPadsOut);
 	}
 
 	public void loadLevel(int level) throws IOException {
 		// loads the level hitbox file
+		onScreen.clear();
+		hitboxNumbers.clear();
+		hitboxes.clear();
+		tpPadsIn.clear();
+		tpPadsOut.clear();
+		player.setX(100);
+		player.setY(100);
+		bg = new Texture("BG", "/sprites/" + level + ".png", 10000, 540);
 		BufferedReader buff_in = new BufferedReader(
 				new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
 		String tempString = buff_in.readLine();
@@ -61,7 +64,6 @@ public class Level {
 			hitboxes.add(hitbox = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 					tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
 			if (Integer.parseInt(type) == Hitbox.TPINUP) {
-
 				hitbox.setTPID(tpID);
 				i++;
 				tempToken = new StringTokenizer(hitboxNumbers.get(i));
@@ -69,6 +71,21 @@ public class Level {
 				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
 				hitbox2.setTPID(tpID);
+				hitbox.setDir(Hitbox.upTP);
+				hitbox2.setDir(Hitbox.upTP);
+				tpPadsOut.add(hitbox2);
+				tpPadsIn.add(hitbox);
+				tpID++;
+			} else if (Integer.parseInt(type) == Hitbox.TPINSIDE) {
+				hitbox.setTPID(tpID);
+				i++;
+				tempToken = new StringTokenizer(hitboxNumbers.get(i));
+				Hitbox hitbox2;
+				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
+						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
+				hitbox2.setTPID(tpID);
+				hitbox.setDir(Hitbox.sideTP);
+				hitbox2.setDir(Hitbox.sideTP);
 				tpPadsOut.add(hitbox2);
 				tpPadsIn.add(hitbox);
 				tpID++;
@@ -80,7 +97,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		// shutdown.update();
+		shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {

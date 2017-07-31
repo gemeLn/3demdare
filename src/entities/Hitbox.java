@@ -28,6 +28,7 @@ public class Hitbox extends Rectangle {
 	public final static int NOJUMP = 3;
 	public final static int ICE = 4;
 	public final static int TPINSIDE = 6;
+	public final static int DIE = 7;
 
 	private int type;
 	private long nextJump = 0;
