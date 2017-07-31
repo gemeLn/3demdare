@@ -165,7 +165,15 @@ public class Player {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
 						}
-					} else {
+					} else if (h.getType() == Hitbox.ICE) {
+						yvel = 0;
+						if(walking)
+							xvel = 15*dir;
+						inAir = false;
+						jumps = totalJumps;
+						walljump = false;
+						jumping = false;
+					}else {
 						yvel = 0;
 						y = (int) (h.y - this.h);
 						inAir = false;
