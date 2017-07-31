@@ -17,7 +17,7 @@ public class Level {
 	// Declare shit
 	int tileScale = 10;
 	int tpID = 0;;
-	int level;
+	private int level;
 	Player player;
 	Shutdown shutdown;
 	Screen screen;
@@ -49,6 +49,7 @@ public class Level {
 		hitboxes.clear();
 		tpPadsIn.clear();
 		tpPadsOut.clear();
+		shutdown.getHitbox().width = 0;
 		player.setX(100);
 		player.setY(100);
 		bg = new Texture("BG", "/sprites/" + level + ".png", 10000, 540);
@@ -147,5 +148,13 @@ public class Level {
 
 	public KeyListener getListener() {
 		return player.getListener();
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 }
