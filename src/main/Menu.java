@@ -39,10 +39,11 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
 		
-		contactBackground = new Texture("Emi B.", "", 960, 540);
-		contact.add(new Texture("Dylan B.", "", 960, 540));
-		contact.add(new Texture("Geoffrey D.", "", 960, 540));
-		contact.add(new Texture("Matty T.", "", 960, 540));
+		contactBackground = new Texture("Contacts", "/sprites/contacts.png", 960, 540);
+		contact.add(new Texture("Emi B.", "/sprites/contactsEmi.png", 960, 540));
+		contact.add(new Texture("Dylan B.", "/sprites/contactsDylan.png", 960, 540));
+		contact.add(new Texture("Geoffrey D.", "/sprites/contactsGeoffrey.png", 960, 540));
+		contact.add(new Texture("Matty T.", "/sprites/contactsMatty.png", 960, 540));
 	}
 
 	//Select stuff
@@ -59,25 +60,23 @@ public class Menu {
 	public void leftPressed() { // active when u press left key
 		if (currentbackground > 1) {
 			currentbackground --;
+			menuBackground = menuHighlight.get(currentbackground);
 		}
-		
-		else if (currentcontact > 0) {
+		else if (currentcontact < 4) {
 			currentcontact --;
+			menuBackground = contactBackground.get(currentcontact);
 		}
-		
-		menuBackground = menuHighlight.get(currentbackground);
 	}
 
 	public void rightPressed() { // active when u press right key
 		if (currentbackground < 4) {
 			currentbackground ++;
+			menuBackground = menuHighlight.get(currentbackground);
 		}
-		
-		else if (currentcontact < 3) {
+		else if (currentcontact > 0) {
 			currentcontact ++;
+			menuBackground = contactBackground.get(currentcontact);
 		}
-		
-		menuBackground = menuHighlight.get(currentbackground);
 	}	
 	
 	//Safareee link thing (takes you to the LD website)
