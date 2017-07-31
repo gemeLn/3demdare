@@ -34,7 +34,6 @@ public class Player {
 		this.hitboxes = hitboxes;
 		this.tppads = tppads;
 		sprite = new Texture("XD", path, w, h);
-		sprite = player.getTexture(1, 1);
 		xvel = 0;
 		yvel = 1;
 		totalJumps = 1;
@@ -47,13 +46,13 @@ public class Player {
 		this.w = w;
 		this.h = h;
 		animation = new Animation();
-		players = new Texture("/sprites/xd.png",1150, 50);
+		players = new Texture("/sprites/walk.png",1150, 50);
 		player = new SpriteSheet(players, 50, 50);
 
 	}
 
 	public void render(Screen screen) {
-		screen.drawTexture(x, y, sprite);
+		screen.drawTexture(x, y, sprite,  dir == 1);
 	}
 
 	public int avg(int i1, int i2) {
@@ -172,9 +171,11 @@ public class Player {
 			if (!hitWall)
 				x += xvel;
 		}
-		if(tick%6 == 0){
+		if(tick%3 == 0){
 			index++;
-			//sprite = player.getTexture(1, 1);
+			if(index == 23)
+				index = 6;
+			sprite = player.getTexture(index, 0);
 		}
 		tick++;
 	}
