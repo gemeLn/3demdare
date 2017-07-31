@@ -16,6 +16,8 @@ public class Menu {
 	int currentbackground;
 	int currentcontact;
 	
+	boolean contactOn;
+	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 	ArrayList<Texture> contact = new ArrayList<Texture>();
 
@@ -31,6 +33,8 @@ public class Menu {
 	public Menu() {
 		currentbackground = 0;
 		currentcontact = 0;
+		
+		contactOn = false;
 		
 		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
@@ -58,24 +62,32 @@ public class Menu {
 	}
 
 	public void leftPressed() { // active when u press left key
-		if (currentbackground > 1) {
-			currentbackground --;
-			menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false) {
+			if (currentbackground > 1) {
+				currentbackground --;
+				menuBackground = menuHighlight.get(currentbackground);
+			}
 		}
-		else if (currentcontact < 4) {
-			currentcontact --;
-			menuBackground = contactBackground.get(currentcontact);
+		else {
+			if (currentcontact > 0) {
+				currentcontact --;
+				menuBackground = contact.get(currentcontact);
+			}
 		}
 	}
 
 	public void rightPressed() { // active when u press right key
-		if (currentbackground < 4) {
-			currentbackground ++;
-			menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false) {
+			if (currentbackground < 4) {
+				currentbackground ++;
+				menuBackground = menuHighlight.get(currentbackground);
+			}
 		}
-		else if (currentcontact > 0) {
-			currentcontact ++;
-			menuBackground = contactBackground.get(currentcontact);
+		else {
+			if (currentcontact < 3) {
+				currentcontact ++;
+				menuBackground = contact.get(currentcontact);
+			}
 		}
 	}	
 	
@@ -90,7 +102,8 @@ public class Menu {
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
             }
-        }else{
+        }
+        else{
             Runtime runtime = Runtime.getRuntime();
             try {
                 runtime.exec("xdg-open " + url);
@@ -118,6 +131,7 @@ public class Menu {
 			
 			//Contacts
 			case 3: menuBackground = contactBackground;
+					contactOn = true;
 			return;
 			
 			//Settings
