@@ -25,6 +25,7 @@ public class Hitbox extends Rectangle {
 	public final static int TPIN = 1;
 	public final static int TPOUT = 2;
 	public final static int NOJUMP = 3;
+	public final static int ICE = 4;
 
 	private int type;
 	private long nextJump = 0;
