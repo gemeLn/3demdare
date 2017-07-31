@@ -24,28 +24,30 @@ public class Level {
 	ArrayList<Hitbox> onScreen = new ArrayList<Hitbox>();
 	ArrayList<String> hitboxNumbers = new ArrayList<String>();
 	ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
-	ArrayList<Hitbox> tpPads = new ArrayList<Hitbox>();
+	ArrayList<Hitbox> tpPadsIn = new ArrayList<Hitbox>();
+	ArrayList<Hitbox> tpPadsOut = new ArrayList<Hitbox>();
 	public int ScreenPosX = 0;
 	public static long wallCD = 800;
+
 	public Level(Screen screen) {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		System.out.println("hi");
-		bg = new Texture("BG", "/sprites/bg.png", 10000, 540);
+		bg = new Texture("BG", "/sprites/reddit.png", 10000, 540);
 		System.out.println("Bg ran");
 		try {
-			loadLevel(1);
+			loadLevel(2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPads);
+		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPadsIn, tpPadsOut);
 	}
 
 	public void loadLevel(int level) throws IOException {
 		// loads the level hitbox file
-		BufferedReader buff_in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
+		BufferedReader buff_in = new BufferedReader(
+				new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
 		String tempString = buff_in.readLine();
 		while (tempString != null) {
 			hitboxNumbers.add(tempString);
@@ -66,7 +68,9 @@ public class Level {
 				Hitbox hitbox2;
 				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
-				tpPads.add(hitbox2);
+				hitbox2.setTPID(tpID);
+				tpPadsOut.add(hitbox2);
+				tpPadsIn.add(hitbox);
 				tpID++;
 			}
 
@@ -76,7 +80,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		//shutdown.update();
+		// shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
@@ -95,14 +99,14 @@ public class Level {
 	}
 
 	public void render() {
-		screen.drawBG(-ScreenPosX, -ScreenPosX+960, bg);
+		screen.drawBG(-ScreenPosX, -ScreenPosX + 960, bg);
 		shutdown.render(screen);
 		player.render(screen);
 		for (Hitbox h : onScreen) {
 			if (h.getType() == 1) {
-				//screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
+				screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
 			} else {
-				//screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
+				screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
 			}
 		}
 

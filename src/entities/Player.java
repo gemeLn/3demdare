@@ -15,7 +15,8 @@ public class Player {
 	SpriteSheet sheet;
 	Texture sprite;
 	ArrayList<Hitbox> hitboxes;
-	ArrayList<Hitbox> tppads;
+	ArrayList<Hitbox> tpIn;
+	ArrayList<Hitbox> tpOut;
 	boolean inAir = true;
 	private boolean checkYDone, checkXDone;
 	boolean walking;
@@ -29,10 +30,12 @@ public class Player {
 	int index;
 	int tick;
 
-	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppads) {
+	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppadsIn,
+			ArrayList<Hitbox> tppadsOut) {
 		movespeed = 10;
 		this.hitboxes = hitboxes;
-		this.tppads = tppads;
+		tpIn = tppadsIn;
+		tpOut = tppadsOut;
 		sprite = new Texture("XD", path, w, h);
 		xvel = 0;
 		yvel = 1;
@@ -46,17 +49,26 @@ public class Player {
 		this.w = w;
 		this.h = h;
 		animation = new Animation();
-		players = new Texture("/sprites/walk.png",26 * w, w);
+		players = new Texture("/sprites/walk.png", 26 * w, w);
 		player = new SpriteSheet(players, w, h);
 
 	}
 
 	public void render(Screen screen) {
-		screen.drawTexture(x, y, sprite,  dir == 1);
+		screen.drawTexture(x, y, sprite, dir == 1);
 	}
 
 	public int avg(int i1, int i2) {
 		return (int) ((i1 + i2) / 2);
+	}
+
+	public ArrayList<Hitbox> getTpList(Hitbox h) {
+		if (h.getType() == Hitbox.TPOUT) {
+			System.out.println("Into TPOUT");
+			return tpIn;
+		}
+		System.out.println("Into TPIN");
+		return tpOut;
 	}
 
 	public void update() {
@@ -77,8 +89,8 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				// Wall
-				if (h.getType() == Hitbox.TPIN) {
-					Hitbox temp = tppads.get(h.getTPID());
+				if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+					Hitbox temp = getTpList(h).get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
 						y = avg(temp.y, temp.y + temp.height) - (this.h / 2);
@@ -116,22 +128,25 @@ public class Player {
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					if (h.getType() == Hitbox.TPIN) {
-						Hitbox temp = tppads.get(h.getTPID());
-						x = temp.x - w;
-						y = temp.y - this.h;
+					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+						Hitbox temp = getTpList(h).get(h.getTPID());
+						x = temp.x+(temp.width/2)-w/2;
+						y = temp.y - this.h - 1;
 						yvel = -jumpHeight;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
+						} else if(x<0){
+							Main.getInstance().getLevel().advance(x-480);
+							x=480;
 						}
 					} else {
 						yvel = 1;
 					}
 				} else {
 					// Ground
-					if (h.getType() == Hitbox.TPIN) {
-						Hitbox temp = tppads.get(h.getTPID());
+					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
 						y = temp.y + temp.height;
 						if (x > 480) {
@@ -171,9 +186,9 @@ public class Player {
 			if (!hitWall)
 				x += xvel;
 		}
-		if(tick%3 == 0){
+		if (tick % 3 == 0) {
 			index++;
-			if(index == 26)
+			if (index == 26)
 				index = 6;
 			sprite = player.getTexture(index, 0);
 		}
@@ -181,7 +196,9 @@ public class Player {
 	}
 
 	public void jump() {
-		if (walljump && new Hitbox(x-walljumpStrict,y-walljumpStrict,x+w+walljumpStrict,y+h+walljumpStrict).intersects(walljumpBox)) {
+		if (walljump
+				&& new Hitbox(x - walljumpStrict, y - walljumpStrict, x + w + walljumpStrict, y + h + walljumpStrict)
+						.intersects(walljumpBox)) {
 			walljump = false;
 			yvel = (int) (-jumpHeight * 5 / 4);
 		} else if (jumps > 0) {
