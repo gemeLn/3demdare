@@ -74,11 +74,9 @@ public class Player {
 	}
 
 	public ArrayList<Hitbox> getTpList(Hitbox h) {
-		if (h.getType() == Hitbox.TPOUT) {
-			System.out.println("Into TPOUT");
+		if (h.getType() == Hitbox.TP2Way) {
 			return tpIn;
 		}
-		System.out.println("Into TPIN");
 		return tpOut;
 	}
 
