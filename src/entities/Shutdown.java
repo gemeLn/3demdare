@@ -14,7 +14,7 @@ public class Shutdown {
 	public void update(){
 		tick++;
 		if(tick%1 == 0 && tick > 0){
-			getHitbox().width+= 4;
+			getHitbox().width+= 7;
 		}
 	}
 	
