@@ -22,7 +22,7 @@ public class Shutdown {
 	public void minusWidth(int i) {
 		hitbox.width -= i;
 	}
-
+	
 	public void render(Screen screen) {
 		screen.fillRect(0, 0, getHitbox().width, getHitbox().height, 0x000000);
 	}

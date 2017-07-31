@@ -104,7 +104,9 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				// Wall
-				if (tpAble(h, Hitbox.sideTP)) {
+				if (h.getType() == Hitbox.WIN) {
+					Main.getInstance().getLevel().win();
+				} else if (tpAble(h, Hitbox.sideTP)) {
 					Hitbox temp = getTpList(h).get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
@@ -149,7 +151,9 @@ public class Player {
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					if (tpAble(h,Hitbox.upTP)) {
+					if (h.getType() == Hitbox.WIN) {
+						Main.getInstance().getLevel().win();
+					} else if (tpAble(h, Hitbox.upTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
@@ -166,7 +170,9 @@ public class Player {
 					}
 				} else {
 					// Ground
-					if (tpAble(h,Hitbox.upTP)) {
+					if (h.getType() == Hitbox.WIN) {
+						Main.getInstance().getLevel().win();
+					} else if (tpAble(h, Hitbox.upTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
 						// x = temp.x*x/h.x;
@@ -186,12 +192,12 @@ public class Player {
 						jumps = totalJumps;
 						walljump = false;
 						jumping = false;
-					} else if (h.getType() == Hitbox.DIE){
+					} else if (h.getType() == Hitbox.DIE) {
 						yvel = 0;
 						Main.getInstance().setState(Main.State.Menu);
 						Main.getInstance().getMenu().setMenuState(Menu.State.lose);
 						Main.getInstance().getMenu().setLoseBG();
-					}else {
+					} else {
 						yvel = 0;
 						y = (int) (h.y - this.h);
 						inAir = false;
@@ -309,7 +315,7 @@ public class Player {
 						Main.getInstance().getMenu().enter();
 					} catch (IOException e1) {
 					}
-				}else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				} else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					Main.getInstance().getMenu().escape();
 				}
 			}

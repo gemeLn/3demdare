@@ -39,6 +39,9 @@ public class Level {
 		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPadsIn, tpPadsOut);
 	}
 
+	public void win() {
+	}
+
 	public void loadLevel(int level) throws IOException {
 		// loads the level hitbox file
 		onScreen.clear();
