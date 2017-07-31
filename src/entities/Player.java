@@ -100,7 +100,7 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				// Wall
-				if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+				if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
 					Hitbox temp = getTpList(h).get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
@@ -108,11 +108,17 @@ public class Player {
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
+						} else if (x < 0) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
 						}
 					} else if (dir == -1) {
 						x = temp.x - w;
 						y = avg(temp.y, temp.y + temp.height) - (this.h / 2);
 						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						} else if (x < 0) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
 						}
@@ -139,7 +145,7 @@ public class Player {
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
@@ -156,24 +162,27 @@ public class Player {
 					}
 				} else {
 					// Ground
-					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
+					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
-						//x = temp.x*x/h.x;
+						// x = temp.x*x/h.x;
 						y = temp.y + temp.height;
 						if (x > 480) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
+						} else if (x < 0) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
 						}
 					} else if (h.getType() == Hitbox.ICE) {
 						yvel = 0;
-						if(walking)
-							xvel = 15*dir;
+						if (walking)
+							xvel = 15 * dir;
 						inAir = false;
 						jumps = totalJumps;
 						walljump = false;
 						jumping = false;
-					}else {
+					} else {
 						yvel = 0;
 						y = (int) (h.y - this.h);
 						inAir = false;
