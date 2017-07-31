@@ -184,7 +184,10 @@ public class Player {
 						jumps = totalJumps;
 						walljump = false;
 						jumping = false;
-					} else {
+					} else if (h.getType() == Hitbox.DIE){
+						yvel = 0;
+						Main.getInstance().setState(Main.State.Menu);
+					}else {
 						yvel = 0;
 						y = (int) (h.y - this.h);
 						inAir = false;

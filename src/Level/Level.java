@@ -17,6 +17,7 @@ public class Level {
 	// Declare shit
 	int tileScale = 10;
 	int tpID = 0;;
+	int level;
 	Player player;
 	Shutdown shutdown;
 	Screen screen;
@@ -30,13 +31,14 @@ public class Level {
 	public static long wallCD = 800;
 
 	public Level(Screen screen) {
+		level = 1;
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/reddit.png", 10000, 540);
+		bg = new Texture("BG", "/sprites/" + level + ".png", 10000, 540);
 		System.out.println("Bg ran");
 		try {
-			loadLevel(2);
+			loadLevel(level);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
