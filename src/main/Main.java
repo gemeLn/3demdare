@@ -50,35 +50,35 @@ public class Main {
 		level = new Level(screen);
 		window.addKeyListener(level.getListener());
 		window.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
-				System.out.println(e.getPoint());
-				
+				System.out.println(e.getX() - level.ScreenPosX + "," + e.getY());
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
@@ -106,8 +106,7 @@ public class Main {
 					screen.clear(0x000000);
 					menu.update();
 					menu.render(screen);
-				} 
-				else if (getState() == State.Game) {
+				} else if (getState() == State.Game) {
 					window.update();
 					screen.clear(0xffffff);
 					level.update();
@@ -115,20 +114,20 @@ public class Main {
 					if (start + 1000.0 < System.currentTimeMillis()) {
 						start = System.currentTimeMillis();
 						dTick = tick;
-						if(dTick < 55){
+						if (dTick < 55) {
 							fpsD += 1;
-							fps = 1000.0/fpsD;
-						} else if(dTick > 65){
+							fps = 1000.0 / fpsD;
+						} else if (dTick > 65) {
 							fpsD -= 1;
-							fps = 1000.0/fpsD;
+							fps = 1000.0 / fpsD;
 						}
 						tick = 0;
 					}
-					
+
 					screen.drawString("" + dTick, 20, 20, new Font("Comic-Sans MS", 1, 20), Color.BLACK);
 					tick++;
 					timeLR = System.currentTimeMillis();
-					
+
 				}
 
 			}
