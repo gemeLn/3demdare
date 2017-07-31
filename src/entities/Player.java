@@ -173,7 +173,7 @@ public class Player {
 		}
 		if(tick%3 == 0){
 			index++;
-			if(index == 23)
+			if(index == 26)
 				index = 6;
 			sprite = player.getTexture(index, 0);
 		}
