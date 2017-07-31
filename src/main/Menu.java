@@ -84,6 +84,10 @@ public class Menu {
 		if (getMenuState() == State.main) {
 			currentbackground = 1;
 			menuBackground = menuHighlight.get(currentbackground);
+		} 
+		else if(currentapp != 4){
+			currentapp = 4;
+			menuBackground = app.get(currentapp);
 		}
 	}
 
@@ -91,6 +95,12 @@ public class Menu {
 		if (getMenuState() == State.main) {
 			currentbackground = 0;
 			menuBackground = menuHighlight.get(currentbackground);
+		}
+		else if (getMenuState() == State.app) {
+			if(currentapp == 4){
+				currentapp = 0;
+				menuBackground = app.get(currentapp);
+			}
 		}
 	}
 
@@ -127,7 +137,7 @@ public class Menu {
 			}
 		}
 		if (getMenuState() == State.app) {
-			if (currentapp < 5) {
+			if (currentapp < 4) {
 				currentapp ++;
 				menuBackground = app.get(currentapp);
 			}
