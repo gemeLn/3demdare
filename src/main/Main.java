@@ -43,6 +43,7 @@ public class Main {
 	void init() throws InterruptedException {
 		instance = this;
 		setState(State.Menu);
+		System.out.println("hi");
 		menu = new Menu();
 		window.show();
 		screen = window.getScreen();
@@ -105,7 +106,8 @@ public class Main {
 					screen.clear(0x000000);
 					menu.update();
 					menu.render(screen);
-				} else if (getState() == State.Game) {
+				} 
+				else if (getState() == State.Game) {
 					window.update();
 					screen.clear(0xffffff);
 					level.update();
@@ -122,9 +124,11 @@ public class Main {
 						}
 						tick = 0;
 					}
+					
 					screen.drawString("" + dTick, 20, 20, new Font("Comic-Sans MS", 1, 20), Color.BLACK);
 					tick++;
 					timeLR = System.currentTimeMillis();
+					
 				}
 
 			}

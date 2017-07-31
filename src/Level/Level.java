@@ -2,8 +2,8 @@ package Level;
 
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -31,7 +31,9 @@ public class Level {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
+		System.out.println("hi");
 		bg = new Texture("BG", "/sprites/bg.png", 10000, 540);
+		System.out.println("Bg ran");
 		try {
 			loadLevel(1);
 		} catch (IOException e) {
@@ -43,8 +45,7 @@ public class Level {
 
 	public void loadLevel(int level) throws IOException {
 		// loads the level hitbox file
-		FileReader in_file = new FileReader("src/sprites/level" + level + ".lv");
-		BufferedReader buff_in = new BufferedReader(in_file);
+		BufferedReader buff_in = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
 		String tempString = buff_in.readLine();
 		while (tempString != null) {
 			hitboxNumbers.add(tempString);
@@ -75,7 +76,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		shutdown.update();
+		//shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {

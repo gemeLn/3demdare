@@ -38,12 +38,13 @@ public class Menu {
 		contactOn = false;
 		contactFirst = false;
 		
-		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
+		
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Safareee", "/sprites/menubackgroundSafareee.png", 960, 540));
 		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundAppstore.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
+		menuBackground = menuHighlight.get(0); 
 		
 		contactBackground = new Texture("Contacts", "/sprites/contacts.png", 960, 540);
 		contact.add(new Texture("Emi B.", "/sprites/contactsEmi.png", 960, 540));
