@@ -33,10 +33,10 @@ public class Level {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/bg.png", 10000, 540);
+		bg = new Texture("BG", "/sprites/reddit.png", 10000, 540);
 		System.out.println("Bg ran");
 		try {
-			loadLevel(1);
+			loadLevel(2);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -35,6 +35,8 @@ public class Player {
 	int index, jumpingIndex, idleIndex;
 	int tick;
 
+	private final int gcap = 20;
+
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppadsIn,
 			ArrayList<Hitbox> tppadsOut) {
 		movespeed = 10;
@@ -54,10 +56,10 @@ public class Player {
 		this.w = w;
 		this.h = h;
 		animation = new Animation();
-		players = new Texture("/sprites/walk.png",26 * w, w);
+		players = new Texture("/sprites/walk.png", 26 * w, w);
 		player = new SpriteSheet(players, w, h);
-		jump = new SpriteSheet(new Texture("/sprites/jump.png",8 * w, w), w, h);
-		idle = new SpriteSheet(new Texture("/sprites/idle.png",7*w, w), w, h);
+		jump = new SpriteSheet(new Texture("/sprites/jump.png", 8 * w, w), w, h);
+		idle = new SpriteSheet(new Texture("/sprites/idle.png", 7 * w, w), w, h);
 		sprite = player.getTexture(0, 0);
 		idleIndex = 0;
 
@@ -139,15 +141,15 @@ public class Player {
 					// Ceiling
 					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
-						x = temp.x+(temp.width/2)-w/2;
+						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
 						yvel = -jumpHeight;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
-						} else if(x<0){
-							Main.getInstance().getLevel().advance(x-480);
-							x=480;
+						} else if (x < 0) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
 						}
 					} else {
 						yvel = 1;
@@ -157,6 +159,7 @@ public class Player {
 					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
+						//x = temp.x*x/h.x;
 						y = temp.y + temp.height;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
@@ -181,7 +184,7 @@ public class Player {
 			yvel = 0;
 		}
 
-		if (inAir) {
+		if (inAir && yvel < gcap) {
 			yvel++;
 		}
 		y += yvel;
@@ -196,25 +199,25 @@ public class Player {
 			if (!hitWall)
 				x += xvel;
 		}
-		if(jumping){
-			if(tick%2 == 0){
+		if (jumping) {
+			if (tick % 2 == 0) {
 				sprite = jump.getTexture(jumpingIndex, 0);
 				jumpingIndex++;
-				if(jumpingIndex == 8)
+				if (jumpingIndex == 8)
 					jumpingIndex = 7;
 			}
-		} else if(rwalking || lwalking){
-			if(tick%3 == 0){
+		} else if (rwalking || lwalking) {
+			if (tick % 3 == 0) {
 				sprite = player.getTexture(index, 0);
 				index++;
-				if(index == 26)
+				if (index == 26)
 					index = 7;
 			}
 		} else {
-			if(tick%10 == 0){
+			if (tick % 10 == 0) {
 				sprite = idle.getTexture(idleIndex, 0);
 				idleIndex++;
-				if(idleIndex == 7)
+				if (idleIndex == 7)
 					idleIndex = 0;
 			}
 		}
