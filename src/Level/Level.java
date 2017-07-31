@@ -33,10 +33,10 @@ public class Level {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/reddit.png", 10000, 540);
+		bg = new Texture("BG", "/sprites/youtube.png", 10000, 540);
 		System.out.println("Bg ran");
 		try {
-			loadLevel(2);
+			loadLevel(4);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,6 +61,7 @@ public class Level {
 			hitboxes.add(hitbox = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 					tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
 			if (Integer.parseInt(type) == Hitbox.TPINUP) {
+
 				hitbox.setTPID(tpID);
 				i++;
 				tempToken = new StringTokenizer(hitboxNumbers.get(i));
@@ -68,21 +69,6 @@ public class Level {
 				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
 				hitbox2.setTPID(tpID);
-				hitbox.setDir(Hitbox.upTP);
-				hitbox2.setDir(Hitbox.upTP);
-				tpPadsOut.add(hitbox2);
-				tpPadsIn.add(hitbox);
-				tpID++;
-			} else if (Integer.parseInt(type) == Hitbox.TPINSIDE) {
-				hitbox.setTPID(tpID);
-				i++;
-				tempToken = new StringTokenizer(hitboxNumbers.get(i));
-				Hitbox hitbox2;
-				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
-						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
-				hitbox2.setTPID(tpID);
-				hitbox.setDir(Hitbox.sideTP);
-				hitbox2.setDir(Hitbox.sideTP);
 				tpPadsOut.add(hitbox2);
 				tpPadsIn.add(hitbox);
 				tpID++;
