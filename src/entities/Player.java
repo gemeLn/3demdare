@@ -147,7 +147,7 @@ public class Player {
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					if (tpAble(h,Hitbox.UPTP)) {
+					if (tpAble(h,Hitbox.upTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
@@ -164,7 +164,7 @@ public class Player {
 					}
 				} else {
 					// Ground
-					if (tpAble(h,Hitbox.UPTP)) {
+					if (tpAble(h,Hitbox.upTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
 						// x = temp.x*x/h.x;

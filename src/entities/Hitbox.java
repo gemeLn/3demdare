@@ -31,7 +31,7 @@ public class Hitbox extends Rectangle {
 
 	private int type;
 	private long nextJump = 0;
-	public final static int UPTP = 0;
+	public final static int upTP = 0;
 	public final static int sideTP = 1;
 	private int tpDir = sideTP;
 
@@ -50,11 +50,6 @@ public class Hitbox extends Rectangle {
 		height = Integer.parseInt(h) * m;
 		this.type = Integer.parseInt(type);
 		nextJump = 0;
-		if (this.type == TPINUP) {
-			setDir(UPTP);
-		} else if (this.type == TPINSIDE) {
-			setDir(sideTP);
-		}
 	}
 
 	public Hitbox(int x, int y, int w, int h, int m) {

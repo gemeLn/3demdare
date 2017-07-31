@@ -60,8 +60,7 @@ public class Level {
 			StringTokenizer tempToken = new StringTokenizer(hitboxNumbers.get(i));
 			hitboxes.add(hitbox = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 					tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
-			if (Integer.parseInt(type) == Hitbox.TPIN) {
-
+			if (Integer.parseInt(type) == Hitbox.TPINUP) {
 				hitbox.setTPID(tpID);
 				i++;
 				tempToken = new StringTokenizer(hitboxNumbers.get(i));
@@ -69,6 +68,21 @@ public class Level {
 				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
 						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
 				hitbox2.setTPID(tpID);
+				hitbox.setDir(Hitbox.upTP);
+				hitbox2.setDir(Hitbox.upTP);
+				tpPadsOut.add(hitbox2);
+				tpPadsIn.add(hitbox);
+				tpID++;
+			} else if (Integer.parseInt(type) == Hitbox.TPINSIDE) {
+				hitbox.setTPID(tpID);
+				i++;
+				tempToken = new StringTokenizer(hitboxNumbers.get(i));
+				Hitbox hitbox2;
+				hitboxes.add(hitbox2 = new Hitbox(tempToken.nextToken(), tempToken.nextToken(), tempToken.nextToken(),
+						tempToken.nextToken(), tileScale, type = tempToken.nextToken()));
+				hitbox2.setTPID(tpID);
+				hitbox.setDir(Hitbox.sideTP);
+				hitbox2.setDir(Hitbox.sideTP);
 				tpPadsOut.add(hitbox2);
 				tpPadsIn.add(hitbox);
 				tpID++;
