@@ -21,14 +21,21 @@ public class Player {
 	private boolean checkYDone, checkXDone;
 	boolean walking;
 	boolean hitWall = false;
+	boolean rwalking;
+	boolean lwalking;
+	boolean jumping;
 	private boolean walljump = false;
 	private Hitbox walljumpBox;
 	private int walljumpStrict;
 	Animation animation;
 	SpriteSheet player;
+	SpriteSheet jump;
 	Texture players;
-	int index;
+	SpriteSheet idle;
+	int index, jumpingIndex, idleIndex;
 	int tick;
+
+	private final int gcap = 20;
 
 	public Player(int x, int y, int w, int h, String path, ArrayList<Hitbox> hitboxes, ArrayList<Hitbox> tppadsIn,
 			ArrayList<Hitbox> tppadsOut) {
@@ -51,6 +58,10 @@ public class Player {
 		animation = new Animation();
 		players = new Texture("/sprites/walk.png", 26 * w, w);
 		player = new SpriteSheet(players, w, h);
+		jump = new SpriteSheet(new Texture("/sprites/jump.png", 8 * w, w), w, h);
+		idle = new SpriteSheet(new Texture("/sprites/idle.png", 7 * w, w), w, h);
+		sprite = player.getTexture(0, 0);
+		idleIndex = 0;
 
 	}
 
@@ -130,15 +141,15 @@ public class Player {
 					// Ceiling
 					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
-						x = temp.x+(temp.width/2)-w/2;
+						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
 						yvel = -jumpHeight;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
-						} else if(x<0){
-							Main.getInstance().getLevel().advance(x-480);
-							x=480;
+						} else if (x < 0) {
+							Main.getInstance().getLevel().advance(x - 480);
+							x = 480;
 						}
 					} else {
 						yvel = 1;
@@ -148,6 +159,7 @@ public class Player {
 					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TPOUT) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
+						//x = temp.x*x/h.x;
 						y = temp.y + temp.height;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
@@ -159,6 +171,7 @@ public class Player {
 						inAir = false;
 						jumps = totalJumps;
 						walljump = false;
+						jumping = false;
 					}
 				}
 				checkYDone = true;
@@ -171,7 +184,7 @@ public class Player {
 			yvel = 0;
 		}
 
-		if (inAir) {
+		if (inAir && yvel < gcap) {
 			yvel++;
 		}
 		y += yvel;
@@ -186,11 +199,27 @@ public class Player {
 			if (!hitWall)
 				x += xvel;
 		}
-		if (tick % 3 == 0) {
-			index++;
-			if (index == 26)
-				index = 6;
-			sprite = player.getTexture(index, 0);
+		if (jumping) {
+			if (tick % 2 == 0) {
+				sprite = jump.getTexture(jumpingIndex, 0);
+				jumpingIndex++;
+				if (jumpingIndex == 8)
+					jumpingIndex = 7;
+			}
+		} else if (rwalking || lwalking) {
+			if (tick % 3 == 0) {
+				sprite = player.getTexture(index, 0);
+				index++;
+				if (index == 26)
+					index = 7;
+			}
+		} else {
+			if (tick % 10 == 0) {
+				sprite = idle.getTexture(idleIndex, 0);
+				idleIndex++;
+				if (idleIndex == 7)
+					idleIndex = 0;
+			}
 		}
 		tick++;
 	}
@@ -201,10 +230,14 @@ public class Player {
 						.intersects(walljumpBox)) {
 			walljump = false;
 			yvel = (int) (-jumpHeight * 5 / 4);
+			jumping = true;
+			jumpingIndex = 0;
 		} else if (jumps > 0) {
 			inAir = true;
 			yvel = -jumpHeight;
 			jumps--;
+			jumping = true;
+			jumpingIndex = 0;
 		}
 
 	}
@@ -216,9 +249,11 @@ public class Player {
 			if (Main.getInstance().getState() == Main.State.Game) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					walking = true;
+					lwalking = true;
 					xvel = -movespeed;
 					dir = -1;
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+					rwalking = true;
 					walking = true;
 					xvel = +movespeed;
 					dir = 1;
@@ -241,7 +276,6 @@ public class Player {
 				else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 					Main.getInstance().getMenu().leftPressed();
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-
 					Main.getInstance().getMenu().rightPressed();
 				} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					Main.getInstance().getMenu().enter();
@@ -253,12 +287,14 @@ public class Player {
 		public void keyReleased(KeyEvent e) {
 			if (Main.getInstance().getState() == Main.State.Game) {
 				if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-					walking = false;
+					index = 0;
+					lwalking = false;
 					if (dir == -1) {
 						xvel = 0;
 					}
 				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-					walking = false;
+					index = 0;
+					rwalking = false;
 					if (dir == 1) {
 						xvel = 0;
 					}
