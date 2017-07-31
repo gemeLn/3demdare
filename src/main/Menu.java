@@ -20,8 +20,10 @@ public class Menu {
 	int currentapp;
 	
 	boolean contactOn;
+	boolean contactsOn;
 	boolean contactFirst;
 	boolean appSelectOn;
+	boolean optionsOn;
 	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 	ArrayList<Texture> contact = new ArrayList<Texture>();
@@ -120,6 +122,16 @@ public class Menu {
 		}
 	}	
 	
+	//Escape!!!
+	public void escape() {
+		if (contactsOn == true) {
+			menuBackground = menuHighlight.get(0);
+		}
+		else if (optionsOn == true) {
+			menuBackground = menuHighlight.get(0);
+		}
+	}
+	
 	//Safareee link thing (takes you to the LD website)
 	public void safareee() {
         String url = "https://ldjam.com/";
@@ -142,9 +154,6 @@ public class Menu {
         }
     }
 	
-	//Escape!!!
-	
-	
 	//When you press enter on selected thing
 	public void enter() {
 		//Main menu
@@ -163,11 +172,13 @@ public class Menu {
 			
 			//Contacts
 			case 3: menuBackground = contactBackground;
+					contactsOn = true;
 					contactFirst = true;
 			return;
 			
 			//Settings
 			case 4: menuBackground = controlsDisplay;
+					optionsOn = true;
 			return;
 		}
 		
@@ -192,12 +203,6 @@ public class Menu {
 			//Internet
 			case 4:
 			return;
-		}
-		
+		}	
 	}
-
-	public void escape() {
-		
-	}
-	
 }
