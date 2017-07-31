@@ -31,19 +31,19 @@ public class Level {
 		tpID = 0;
 		this.screen = screen;
 		shutdown = new Shutdown();
-		bg = new Texture("BG", "/sprites/reddit.png", 10000, 540);
+		bg = new Texture("BG", "/sprites/bg.png", 10000, 540);
 		try {
 			loadLevel(1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		player = new Player(100, 150, 50, 50, "/sprites/xd.png", onScreen, tpPads);
+		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPads);
 	}
 
 	public void loadLevel(int level) throws IOException {
 		// loads the level hitbox file
-		FileReader in_file = new FileReader("src/sprites/level2.lv");
+		FileReader in_file = new FileReader("src/sprites/level" + level + ".lv");
 		BufferedReader buff_in = new BufferedReader(in_file);
 		String tempString = buff_in.readLine();
 		while (tempString != null) {
@@ -75,7 +75,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		// shutdown.update();
+		shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
