@@ -17,6 +17,7 @@ public class Menu {
 	int currentcontact;
 	
 	boolean contactOn;
+	boolean contactFirst;
 	
 	ArrayList<Texture> menuHighlight = new ArrayList<Texture>();
 	ArrayList<Texture> contact = new ArrayList<Texture>();
@@ -35,6 +36,7 @@ public class Menu {
 		currentcontact = 0;
 		
 		contactOn = false;
+		contactFirst = false;
 		
 		menuBackground = new Texture("Menu Background", "/sprites/menubackground.png", 960, 540);
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
@@ -52,42 +54,52 @@ public class Menu {
 
 	//Select stuff
 	public void downPressed() { // active when u press down key
-		currentbackground = 1;
-		menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false && contactFirst == false) {
+			currentbackground = 1;
+			menuBackground = menuHighlight.get(currentbackground);
+		}
 	}
 
 	public void upPressed() { // active when u press up key
-		currentbackground = 0;
-		menuBackground = menuHighlight.get(currentbackground);
+		if (contactOn == false && contactFirst == false) {
+			currentbackground = 0;
+			menuBackground = menuHighlight.get(currentbackground);
+		}
 	}
 
 	public void leftPressed() { // active when u press left key
-		if (contactOn == false) {
+		if (contactOn == false && contactFirst == false) {
 			if (currentbackground > 1) {
 				currentbackground --;
 				menuBackground = menuHighlight.get(currentbackground);
 			}
 		}
-		else {
+		else if(contactOn) {
 			if (currentcontact > 0) {
 				currentcontact --;
 				menuBackground = contact.get(currentcontact);
 			}
+		} else {
+			menuBackground = contact.get(0);
+			contactOn = true;
 		}
 	}
 
 	public void rightPressed() { // active when u press right key
-		if (contactOn == false) {
+		if (contactOn == false && contactFirst == false) {
 			if (currentbackground < 4) {
 				currentbackground ++;
 				menuBackground = menuHighlight.get(currentbackground);
 			}
 		}
-		else {
+		else if(contactOn){
 			if (currentcontact < 3) {
 				currentcontact ++;
 				menuBackground = contact.get(currentcontact);
 			}
+		} else {
+			menuBackground = contact.get(0);
+			contactOn = true;
 		}
 	}	
 	
@@ -131,7 +143,7 @@ public class Menu {
 			
 			//Contacts
 			case 3: menuBackground = contactBackground;
-					contactOn = true;
+					contactFirst = true;
 			return;
 			
 			//Settings
