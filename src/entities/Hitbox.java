@@ -22,14 +22,26 @@ public class Hitbox extends Rectangle {
 		tpID = i;
 	}
 
-	public final static int TPIN = 1;
+	public final static int TPINUP = 1;
 	public final static int TPOUT = 2;
 	public final static int TP2Way = 5;
 	public final static int NOJUMP = 3;
 	public final static int ICE = 4;
+	public final static int TPINSIDE = 6;
 
 	private int type;
 	private long nextJump = 0;
+	public final static int UPTP = 0;
+	public final static int sideTP = 1;
+	private int tpDir = sideTP;
+
+	public void setDir(int i) {
+		tpDir = i;
+	}
+
+	public int getDir() {
+		return tpDir;
+	}
 
 	public Hitbox(String x, String y, String w, String h, int m, String type) {
 		this.x = Integer.parseInt(x) * m;
@@ -38,6 +50,11 @@ public class Hitbox extends Rectangle {
 		height = Integer.parseInt(h) * m;
 		this.type = Integer.parseInt(type);
 		nextJump = 0;
+		if (this.type == TPINUP) {
+			setDir(UPTP);
+		} else if (this.type == TPINSIDE) {
+			setDir(sideTP);
+		}
 	}
 
 	public Hitbox(int x, int y, int w, int h, int m) {

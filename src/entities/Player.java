@@ -80,6 +80,10 @@ public class Player {
 		return tpOut;
 	}
 
+	public boolean tpAble(Hitbox h, int dir) {
+		return (h.getType() == Hitbox.TPINUP || h.getType() == Hitbox.TP2Way) && h.getDir() == dir;
+	}
+
 	public void update() {
 		// System.out.println(x);
 		// Collision Detect
@@ -98,7 +102,7 @@ public class Player {
 			}
 			if (xbox.intersects(h)) {
 				// Wall
-				if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
+				if (tpAble(h, Hitbox.sideTP)) {
 					Hitbox temp = getTpList(h).get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
@@ -143,7 +147,7 @@ public class Player {
 			} else if (ybox.intersects(h)) {
 				if (yvel < 0) {
 					// Ceiling
-					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
+					if (tpAble(h,Hitbox.UPTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = temp.x + (temp.width / 2) - w / 2;
 						y = temp.y - this.h - 1;
@@ -160,7 +164,7 @@ public class Player {
 					}
 				} else {
 					// Ground
-					if (h.getType() == Hitbox.TPIN || h.getType() == Hitbox.TP2Way) {
+					if (tpAble(h,Hitbox.UPTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
 						// x = temp.x*x/h.x;
