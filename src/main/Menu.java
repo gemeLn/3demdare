@@ -85,9 +85,11 @@ public class Menu {
 			currentbackground = 1;
 			menuBackground = menuHighlight.get(currentbackground);
 		} 
-		else if(currentapp != 4){
-			currentapp = 4;
-			menuBackground = app.get(currentapp);
+		else if(menuState == State.app){
+			if(currentapp != 4){
+				currentapp = 4;
+				menuBackground = app.get(currentapp);
+			}
 		}
 	}
 
@@ -202,29 +204,29 @@ public class Menu {
 				case 0: 
 					Main.getInstance().getLevel().loadLevel(1);
 					Main.getInstance().setState(Main.State.Game);
-				return;
-				
+					return;
+					
 				//Reddit
 				case 1: 
 					Main.getInstance().getLevel().loadLevel(2);
 					Main.getInstance().setState(Main.State.Game);
-				return;
+					return;
 				
 				//YouTube
 				case 2: 
 					Main.getInstance().getLevel().loadLevel(3);
 					Main.getInstance().setState(Main.State.Game);
-				return;
+					return;
 				
 				//Snapchat
 				case 3: 
-				return;
+					return;
 				
 				//Internet
 				case 4: 
 					Main.getInstance().getLevel().loadLevel(5);
 					Main.getInstance().setState(Main.State.Game);
-				return;
+					return;
 			}	
 		}
 		//Main menu
@@ -233,27 +235,49 @@ public class Menu {
 				//Play
 				case 0: menuBackground = app.get(0);
 					setMenuState(State.app);
-				return;
+					return;
 			
 				//Safareee
 				case 1: safareee();
-				return;
+					return;
 			
 				//App Store
 				case 2: 
-				return;
+					return;
 			
 				//Contacts
 				case 3: menuBackground = contactBackground;
 						setMenuState(State.contact);
 						currentcontact = -1;
-				return;
+						return;
 			
 				//Settings
 				case 4: 
 					menuBackground = controlsDisplay;
 					setMenuState(State.options);
-				return;
+					return;
+			}
+		}
+		else if (getMenuState() == State.lose){
+			switch(yLIndex) {
+				//yLAppSelect
+				case 0:
+					menuBackground = app.get(0);
+					setMenuState(State.app);
+					return;
+			
+				//yLMenu
+				case 1:
+					Main.getInstance().setState(Main.State.Game);
+					Main.getInstance().getLevel().loadLevel(Main.getInstance().getLevel().getLevel());
+					return;
+			
+				//yLTryAgain
+				case 2: 
+					menuBackground = menuHighlight.get(0);
+					setMenuState(State.main);
+					return;
+			
 			}
 		}
 	}
