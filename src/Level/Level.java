@@ -47,10 +47,13 @@ public class Level {
 		if (completion[1] && completion[2] && completion[3] && completion[4] && completion[5]) {
 			Main.getInstance().setState(Main.State.Menu);
 			Main.getInstance().getMenu().out();
+			System.out.println("ran");
+		} else {
+			Main.getInstance().setState(Main.State.Menu);
+			Main.getInstance().getMenu().setMenuState(Menu.State.win);
+			Main.getInstance().getMenu().currentapp = 0;
+			Main.getInstance().getMenu().setBGW();
 		}
-		Main.getInstance().setState(Main.State.Menu);
-		Main.getInstance().getMenu().setMenuState(Menu.State.win);
-		Main.getInstance().getMenu().setBGW();
 	}
 
 	public void loadLevel(int level) throws IOException {

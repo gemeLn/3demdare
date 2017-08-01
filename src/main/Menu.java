@@ -22,7 +22,7 @@ public class Menu {
 	
 	int currentbackground;
 	int currentcontact;
-	int currentapp;
+	public int currentapp;
 	int yLIndex;
 	int startIndex;
 	
@@ -341,6 +341,8 @@ public class Menu {
 	}
 
 	public void out() {
+		menuBackground = last;
+		menuState = State.end;
 		
 	}
 }
