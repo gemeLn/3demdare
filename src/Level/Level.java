@@ -46,6 +46,7 @@ public class Level {
 		completion[level] = true;
 		if (completion[1] && completion[2] && completion[3] && completion[4] && completion[5]) {
 			// CONCLUSION HERE PIECE OFSHIT
+			System.out.println("conclusipon");
 		}
 		Main.getInstance().setState(Main.State.Menu);
 		Main.getInstance().getMenu().setMenuState(Menu.State.win);
@@ -55,6 +56,7 @@ public class Level {
 	public void loadLevel(int level) throws IOException {
 		System.out.println("load Level ran");
 		// loads the level hitbox file
+		tpID = 0;
 		onScreen.clear();
 		hitboxNumbers.clear();
 		hitboxes.clear();
@@ -63,7 +65,7 @@ public class Level {
 		shutdown.getHitbox().width = 0;
 		shutdown.tick = -60;
 		shutdown.speed = 7;
-		if(level == 3){
+		if (level == 3) {
 			shutdown.tick = -240;
 			shutdown.speed = 6;
 		}
@@ -125,7 +127,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		shutdown.update();
+		//shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
