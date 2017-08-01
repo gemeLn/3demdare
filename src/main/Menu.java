@@ -11,7 +11,7 @@ import graphics.Texture;
 
 public class Menu {
 	public enum State {
-		contact,app,options,main, lose, win, start;
+		contact,app,options,main, lose, win, start, end;
 	}
 	Texture menuBackground;
 	Texture contactBackground;
@@ -23,6 +23,7 @@ public class Menu {
 	int currentcontact;
 	int currentapp;
 	int yLIndex;
+	int startIndex;
 	
 	boolean contactFirst;
 	private State menuState;
@@ -31,6 +32,7 @@ public class Menu {
 	ArrayList<Texture> contact = new ArrayList<Texture>();
 	ArrayList<Texture> app = new ArrayList<Texture>();
 	ArrayList<Texture> yL = new ArrayList<Texture>();
+	ArrayList<Texture> start = new ArrayList<Texture>();
 
 	
 	public void render(Screen screen) {
@@ -46,7 +48,7 @@ public class Menu {
 		currentcontact = 0;
 		currentapp = 0;
 		yLIndex = 0;
-		setMenuState(State.main);
+		setMenuState(State.start);
 		
 		//Menu textures
 		menuHighlight.add(new Texture("Menu Play", "/sprites/menubackgroundPlay.png", 960, 540));
@@ -54,7 +56,6 @@ public class Menu {
 		menuHighlight.add(new Texture("Menu AppStore", "/sprites/menubackgroundAppstore.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Contacts", "/sprites/menubackgroundContacts.png", 960, 540));
 		menuHighlight.add(new Texture("Menu Settings", "/sprites/menubackgroundSettings.png", 960, 540));
-		menuBackground = menuHighlight.get(0); 
 		
 		//Contact textures
 		contactBackground = new Texture("Contacts", "/sprites/contacts.png", 960, 540);
@@ -80,6 +81,13 @@ public class Menu {
 		controlsDisplay = new Texture("Controls", "/sprites/controls.png", 960, 540);
 		
 		win = new Texture("win", "/sprites/win.png",960, 540);
+		
+		start.add(new Texture("Controls", "/sprites/M0.png",960, 540));
+		start.add(new Texture("/sprites/M1.png", 960, 540));
+		start.add(new Texture("/sprites/M2.png", 960, 540));
+		start.add(new Texture("/sprites/M3.png", 960, 540));
+		
+		menuBackground = start.get(0); 
 	}
 
 	//Select stuff
@@ -168,8 +176,18 @@ public class Menu {
 		else if(menuState == State.lose) {
 			if(yLIndex == 0){
 				yLIndex = 1;
-				menuBackground = yL.get(yLIndex);
+				menuBackground = yL.get(1);
 			}
+		}
+		else if(menuState == State.start){
+			startIndex++;
+			if(startIndex == 4){
+				menuState = State.main;
+				menuBackground = menuHighlight.get(0);
+			} else{
+				menuBackground = start.get(startIndex);
+			}
+				
 		}
 	}	
 	
