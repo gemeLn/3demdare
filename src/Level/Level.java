@@ -53,6 +53,7 @@ public class Level {
 	}
 
 	public void loadLevel(int level) throws IOException {
+		System.out.println("load Level ran");
 		// loads the level hitbox file
 		onScreen.clear();
 		hitboxNumbers.clear();
@@ -69,6 +70,7 @@ public class Level {
 		player.lwalking = false;
 		player.jumping = false;
 		ScreenPosX = 0;
+		this.level = level;
 		bg = new Texture("BG", "/sprites/" + level + ".png", 10000, 540);
 		BufferedReader buff_in = new BufferedReader(
 				new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
@@ -118,7 +120,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		// shutdown.update();
+		shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
