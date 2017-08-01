@@ -45,8 +45,8 @@ public class Level {
 	public void win() {
 		completion[level] = true;
 		if (completion[1] && completion[2] && completion[3] && completion[4] && completion[5]) {
-			// CONCLUSION HERE PIECE OFSHIT
-			System.out.println("conclusipon");
+			Main.getInstance().setState(Main.State.Menu);
+			Main.getInstance().getMenu().out();
 		}
 		Main.getInstance().setState(Main.State.Menu);
 		Main.getInstance().getMenu().setMenuState(Menu.State.win);
@@ -151,9 +151,9 @@ public class Level {
 		player.render(screen);
 		for (Hitbox h : onScreen) {
 			if (h.getType() == 1) {
-				screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
+				//screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
 			} else {
-				screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
+				//screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
 			}
 		}
 

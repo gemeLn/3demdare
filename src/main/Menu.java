@@ -18,6 +18,7 @@ public class Menu {
 	Texture currentApp;
 	Texture controlsDisplay;
 	Texture win;
+	Texture last;
 	
 	int currentbackground;
 	int currentcontact;
@@ -86,6 +87,7 @@ public class Menu {
 		start.add(new Texture("/sprites/M1.png", 960, 540));
 		start.add(new Texture("/sprites/M2.png", 960, 540));
 		start.add(new Texture("/sprites/M3.png", 960, 540));
+		last = new Texture("/sprites/last.png", 960, 540);
 		
 		menuBackground = start.get(0); 
 	}
@@ -334,5 +336,9 @@ public class Menu {
 
 	public void setBGW() {
 		menuBackground = win;
+	}
+
+	public void out() {
+		
 	}
 }
