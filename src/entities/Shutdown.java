@@ -6,7 +6,7 @@ public class Shutdown {
 	private Hitbox hitbox;
 	public long tick = -60;
 	boolean gameStart;
-	public int speed = 7;
+	public int speed = 6;
 
 	public Shutdown(int level) {
 		setHitbox(new Hitbox(0, 0, 0, 540));

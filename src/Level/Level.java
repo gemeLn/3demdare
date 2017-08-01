@@ -64,10 +64,10 @@ public class Level {
 		tpPadsOut.clear();
 		shutdown.getHitbox().width = 0;
 		shutdown.tick = -60;
-		shutdown.speed = 7;
+		shutdown.speed = 6;
 		if (level == 3) {
 			shutdown.tick = -240;
-			shutdown.speed = 6;
+			shutdown.speed = 5;
 		}
 		player.setX(100);
 		player.setY(100);
@@ -127,7 +127,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-		//shutdown.update();
+		shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
