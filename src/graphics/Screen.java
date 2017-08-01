@@ -9,8 +9,6 @@ import java.awt.image.DataBufferInt;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Main;
-
 public class Screen {
 
 	private int width, height;
@@ -170,18 +168,18 @@ public class Screen {
 		drawTexture(x, y, texture, false);
 	}
 
-	public void drawBG(int a, int b,Texture texture) {
+	public void drawBG(int a, int b, Texture texture) {
 		int[] og = texture.pixels;
 		int w = texture.getWidth();
 		int h = texture.getHeight();
 		int i = 0;
-		for(int k=0;k<h;k++){
-			for(int n=a;n<b;n++){
-				pixels[i] = og[n+(w*k)];
+		for (int k = 0; k < h; k++) {
+			for (int n = a; n < b; n++) {
+				pixels[i] = og[n + (w * k)];
 				i++;
 			}
 		}
-		
+
 	}
 
 	public void drawTexture(int x, int y, Texture texture, boolean flipX) {
