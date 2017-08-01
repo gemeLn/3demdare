@@ -65,12 +65,10 @@ public class Main {
 			public void mousePressed(MouseEvent e) {
 				if (e.getButton() == MouseEvent.BUTTON1) {
 					previous = e.getPoint();
-					System.out.println(
-							(Math.round(e.getX() - level.ScreenPosX) / 10) + "," + (Math.round(e.getY() / 10)));
+					System.out.println(e.getX() - level.ScreenPosX + "," + e.getY());
 
 				} else if (e.getButton() == MouseEvent.BUTTON3) {
-					System.out.println("W:" + Math.round((e.getX() - previous.x) / 10) + ", H:"
-							+ Math.round(((e.getY() - previous.y) / 10)));
+					System.out.println("W:" + (e.getX() - previous.x) + ", H:" + (e.getY() - previous.y));
 				}
 
 			}

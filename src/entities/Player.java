@@ -83,7 +83,7 @@ public class Player {
 	}
 
 	public boolean tpAble(Hitbox h, int dir) {
-		return (h.getType() == Hitbox.TPINUP || h.getType() == Hitbox.TP2Way) && h.getDir() == dir;
+		return (h.getType() == Hitbox.TPINUP || h.getType() == Hitbox.TP2Way||h.getType()==Hitbox.TPINSIDE) && h.getDir() == dir;
 	}
 
 	public void update() {
@@ -107,6 +107,7 @@ public class Player {
 				if (h.getType() == Hitbox.WIN) {
 					Main.getInstance().getLevel().win();
 				} else if (tpAble(h, Hitbox.sideTP)) {
+					System.out.println("side top");
 					Hitbox temp = getTpList(h).get(h.getTPID());
 					if (dir == 1) {
 						x = temp.x + temp.width;
