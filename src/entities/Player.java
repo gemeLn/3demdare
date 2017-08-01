@@ -130,6 +130,11 @@ public class Player {
 						}
 					}
 
+				} else if (h.getType() == Hitbox.DIE) {
+					yvel = 0;
+					Main.getInstance().setState(Main.State.Menu);
+					Main.getInstance().getMenu().setMenuState(Menu.State.lose);
+					Main.getInstance().getMenu().setLoseBG();
 				} else {
 					hitWall = true;
 					if (inAir) {
@@ -153,6 +158,11 @@ public class Player {
 					// Ceiling
 					if (h.getType() == Hitbox.WIN) {
 						Main.getInstance().getLevel().win();
+					} else if (h.getType() == Hitbox.DIE) {
+						yvel = 0;
+						Main.getInstance().setState(Main.State.Menu);
+						Main.getInstance().getMenu().setMenuState(Menu.State.lose);
+						Main.getInstance().getMenu().setLoseBG();
 					} else if (tpAble(h, Hitbox.upTP)) {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = temp.x + (temp.width / 2) - w / 2;
@@ -176,7 +186,7 @@ public class Player {
 						Hitbox temp = getTpList(h).get(h.getTPID());
 						x = avg(temp.x, temp.x + temp.width) - (w / 2);
 						// x = temp.x*x/h.x;
-						y = temp.y + temp.height;
+						y = temp.y + temp.height + 1;
 						if (x > 480) {
 							Main.getInstance().getLevel().advance(x - 480);
 							x = 480;
@@ -222,15 +232,15 @@ public class Player {
 		}
 		y += yvel;
 		// Shifting Background
-		if (x + xvel > 480) {
+		if (x + xvel < 0 && Main.getInstance().getLevel().ScreenPosX - xvel > 0) {
+			x = 0;
+		} else if (x + xvel > 480 || x + xvel < 0) {
 			if (hitWall)
 				Main.getInstance().getLevel().advance(0);
 			else
 				Main.getInstance().getLevel().advance(xvel);
 
-		}else if(x+xvel < 0){
-			x = 0;
-		}else {
+		} else {
 			if (!hitWall)
 				x += xvel;
 		}
@@ -383,7 +393,8 @@ public class Player {
 	}
 
 	/**
-	 * @param yvel the yvel to set
+	 * @param yvel
+	 *            the yvel to set
 	 */
 	public void setYvel(int yvel) {
 		this.yvel = yvel;

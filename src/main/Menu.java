@@ -232,6 +232,8 @@ public class Menu {
 				
 				//Snapchat
 				case 3: 
+					Main.getInstance().getLevel().loadLevel(4);
+					Main.getInstance().setState(Main.State.Game);
 					return;
 				
 				//Internet
