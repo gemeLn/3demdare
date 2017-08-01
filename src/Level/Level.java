@@ -50,8 +50,15 @@ public class Level {
 		tpPadsIn.clear();
 		tpPadsOut.clear();
 		shutdown.getHitbox().width = 0;
+		shutdown.tick = -60;
 		player.setX(100);
 		player.setY(100);
+		player.setXvel(0);
+		player.setYvel(0);
+		player.rwalking = false;
+		player.lwalking = false;
+		player.jumping = false;
+		ScreenPosX = 0;
 		bg = new Texture("BG", "/sprites/" + level + ".png", 10000, 540);
 		BufferedReader buff_in = new BufferedReader(
 				new InputStreamReader(getClass().getResourceAsStream("/sprites/level" + level + ".lv")));
@@ -138,8 +145,8 @@ public class Level {
 		for (Hitbox h : hitboxes) {
 			h.shiftX(-xvel);
 		}
-		shutdown.minusWidth(xvel);
 		shutdown.getHitbox().shiftX(-xvel);
+		shutdown.minusWidth(xvel);
 	}
 
 	public Shutdown getShutdown() {
