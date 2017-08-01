@@ -6,8 +6,9 @@ public class Shutdown {
 	private Hitbox hitbox;
 	public long tick = -60;
 	boolean gameStart;
+	public int speed = 7;
 
-	public Shutdown() {
+	public Shutdown(int level) {
 		setHitbox(new Hitbox(0, 0, 0, 540));
 		hitbox.setType(Hitbox.SHUTDOWN);
 	}
@@ -15,7 +16,7 @@ public class Shutdown {
 	public void update() {
 		tick++;
 		if (tick % 1 == 0 && tick > 0) {
-			getHitbox().width += 7;
+			getHitbox().width += speed;
 		}
 	}
 

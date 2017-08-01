@@ -37,7 +37,7 @@ public class Level {
 		level = 1;
 		tpID = 0;
 		this.screen = screen;
-		shutdown = new Shutdown();
+		shutdown = new Shutdown(level);
 		System.out.println("Bg ran");
 		player = new Player(100, 150, 64, 64, "/sprites/xd.png", onScreen, tpPadsIn, tpPadsOut);
 	}
@@ -62,6 +62,11 @@ public class Level {
 		tpPadsOut.clear();
 		shutdown.getHitbox().width = 0;
 		shutdown.tick = -60;
+		shutdown.speed = 7;
+		if(level == 3){
+			shutdown.tick = -240;
+			shutdown.speed = 6;
+		}
 		player.setX(100);
 		player.setY(100);
 		player.setXvel(0);

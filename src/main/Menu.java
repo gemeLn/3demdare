@@ -11,7 +11,7 @@ import graphics.Texture;
 
 public class Menu {
 	public enum State {
-		contact,app,options,main, lose, win;
+		contact,app,options,main, lose, win, start;
 	}
 	Texture menuBackground;
 	Texture contactBackground;
@@ -285,8 +285,8 @@ public class Menu {
 			
 				//yLMenu
 				case 1:
-					Main.getInstance().setState(Main.State.Game);
 					Main.getInstance().getLevel().loadLevel(Main.getInstance().getLevel().getLevel());
+					Main.getInstance().setState(Main.State.Game);
 					return;
 			
 				//yLTryAgain
