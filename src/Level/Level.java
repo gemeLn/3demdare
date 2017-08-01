@@ -22,6 +22,7 @@ public class Level {
 	Shutdown shutdown;
 	Screen screen;
 	Texture bg;
+	boolean[] completion = { true, false, false, false, false, false };
 	ArrayList<Hitbox> onScreen = new ArrayList<Hitbox>();
 	ArrayList<String> hitboxNumbers = new ArrayList<String>();
 	ArrayList<Hitbox> hitboxes = new ArrayList<Hitbox>();
@@ -40,6 +41,10 @@ public class Level {
 	}
 
 	public void win() {
+		completion[level] = true;
+		if (completion[1] && completion[2] && completion[3] && completion[4] && completion[5]) {
+			// CONCLUSION HERE PIECE OFSHIT
+		}
 	}
 
 	public void loadLevel(int level) throws IOException {
@@ -108,7 +113,7 @@ public class Level {
 
 	public void update() {
 		player.update();
-	//	shutdown.update();
+		// shutdown.update();
 		for (Hitbox h : hitboxes) {
 			if (onScreen(h.x, h.x + h.width)) {
 				if (!onScreen.contains(h)) {
