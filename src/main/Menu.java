@@ -299,6 +299,7 @@ public class Menu {
 			switch(yLIndex) {
 				//yLAppSelect
 				case 0:
+					currentapp = 0;
 					menuBackground = app.get(0);
 					setMenuState(State.app);
 					return;
@@ -332,6 +333,7 @@ public class Menu {
 
 	public void setLoseBG() {
 		menuBackground = yL.get(0);
+		yLIndex = 0;
 	}
 
 	public void setBGW() {

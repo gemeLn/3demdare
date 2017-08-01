@@ -151,9 +151,11 @@ public class Level {
 		player.render(screen);
 		for (Hitbox h : onScreen) {
 			if (h.getType() == 1) {
-				//screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
+				if(level == 2)
+					screen.drawRect(h.x, h.y, h.width, h.height, 0x00ff00);
 			} else {
-				//screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
+				if(level == 2)
+					screen.drawRect(h.x, h.y, h.width, h.height, 0x000000);
 			}
 		}
 
