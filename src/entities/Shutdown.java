@@ -4,7 +4,7 @@ import graphics.Screen;
 
 public class Shutdown {
 	private Hitbox hitbox;
-	long tick = -60;
+	public long tick = -60;
 	boolean gameStart;
 
 	public Shutdown() {

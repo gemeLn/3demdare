@@ -23,9 +23,9 @@ public class Player {
 	private boolean checkYDone, checkXDone;
 	boolean walking;
 	boolean hitWall = false;
-	boolean rwalking;
-	boolean lwalking;
-	boolean jumping;
+	public boolean rwalking;
+	public boolean lwalking;
+	public boolean jumping;
 	private boolean walljump = false;
 	private Hitbox walljumpBox;
 	private int walljumpStrict;
@@ -222,13 +222,15 @@ public class Player {
 		}
 		y += yvel;
 		// Shifting Background
-		if (x + xvel > 480 || x + xvel < 0) {
+		if (x + xvel > 480) {
 			if (hitWall)
 				Main.getInstance().getLevel().advance(0);
 			else
 				Main.getInstance().getLevel().advance(xvel);
 
-		} else {
+		}else if(x+xvel < 0){
+			x = 0;
+		}else {
 			if (!hitWall)
 				x += xvel;
 		}
@@ -363,6 +365,28 @@ public class Player {
 
 	public void setY(int i) {
 		y = i;
+	}
+
+	public int getXvel() {
+		return xvel;
+	}
+
+	public void setXvel(int xvel) {
+		this.xvel = xvel;
+	}
+
+	/**
+	 * @return the yvel
+	 */
+	public int getYvel() {
+		return yvel;
+	}
+
+	/**
+	 * @param yvel the yvel to set
+	 */
+	public void setYvel(int yvel) {
+		this.yvel = yvel;
 	}
 
 }

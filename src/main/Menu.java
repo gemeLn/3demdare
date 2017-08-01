@@ -91,6 +91,12 @@ public class Menu {
 				menuBackground = app.get(currentapp);
 			}
 		}
+		else if(menuState == State.lose) {
+			if(yLIndex == 1){
+				yLIndex = 2;
+				menuBackground = yL.get(yLIndex);
+			}
+		}
 	}
 
 	public void upPressed() { // active when u press up key
@@ -102,6 +108,12 @@ public class Menu {
 			if(currentapp == 4){
 				currentapp = 0;
 				menuBackground = app.get(currentapp);
+			}
+		}
+		else if(menuState == State.lose) {
+			if(yLIndex == 2){
+				yLIndex = 1;
+				menuBackground = yL.get(yLIndex);
 			}
 		}
 	}
