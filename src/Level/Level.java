@@ -145,7 +145,6 @@ public class Level {
 		for (Hitbox h : hitboxes) {
 			h.shiftX(-xvel);
 		}
-		shutdown.getHitbox().shiftX(-xvel);
 		shutdown.minusWidth(xvel);
 	}
 
