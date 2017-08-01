@@ -21,7 +21,7 @@ public class Main {
 	// Declare Variables Here
 	private State state;
 	Menu menu;
-	Window window = new Window("Emoji Runner", 960, 540);
+	Window window = new Window("A Face Against Time", 960, 540);
 	Screen screen;
 	Level level;
 	static Main instance;
