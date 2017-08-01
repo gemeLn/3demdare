@@ -12,6 +12,8 @@ import entities.Player;
 import entities.Shutdown;
 import graphics.Screen;
 import graphics.Texture;
+import main.Main;
+import main.Menu;
 
 public class Level {
 	// Declare shit
@@ -45,6 +47,9 @@ public class Level {
 		if (completion[1] && completion[2] && completion[3] && completion[4] && completion[5]) {
 			// CONCLUSION HERE PIECE OFSHIT
 		}
+		Main.getInstance().setState(Main.State.Menu);
+		Main.getInstance().getMenu().setMenuState(Menu.State.win);
+		Main.getInstance().getMenu().setBGW();
 	}
 
 	public void loadLevel(int level) throws IOException {

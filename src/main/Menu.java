@@ -11,12 +11,13 @@ import graphics.Texture;
 
 public class Menu {
 	public enum State {
-		contact,app,options,main, lose;
+		contact,app,options,main, lose, win;
 	}
 	Texture menuBackground;
 	Texture contactBackground;
 	Texture currentApp;
 	Texture controlsDisplay;
+	Texture win;
 	
 	int currentbackground;
 	int currentcontact;
@@ -77,6 +78,8 @@ public class Menu {
 		
 		//Controls
 		controlsDisplay = new Texture("Controls", "/sprites/controls.png", 960, 540);
+		
+		win = new Texture("win", "/sprites/win.png",960, 540);
 	}
 
 	//Select stuff
@@ -293,6 +296,9 @@ public class Menu {
 					return;
 			
 			}
+		} else if (menuState == State.win){
+			menuBackground = app.get(0);
+			menuState = State.app;
 		}
 	}
 
@@ -306,5 +312,9 @@ public class Menu {
 
 	public void setLoseBG() {
 		menuBackground = yL.get(0);
+	}
+
+	public void setBGW() {
+		menuBackground = win;
 	}
 }
